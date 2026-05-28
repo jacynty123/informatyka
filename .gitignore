@@ -2,10 +2,16 @@
 *
 !/.gitignore
 
-# Allow explicitly the informatyka directory and its subdirectories
+# Allow explicitly the directories
 !/informatyka/
-!/informatyka/**/
+!/informatyka/**
 
-# Allow tex and js files
-!*.tex
-!*.js
+# Explicitly ignore TeX build artifacts
+*.aux
+*.log
+*.synctex.gz
+*.out
+*.nav
+*.snm
+*.toc
+*.vrb
