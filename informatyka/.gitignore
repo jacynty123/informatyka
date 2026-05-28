@@ -1,0 +1,20 @@
+# Pliki tymczasowe kompilacji LaTeX
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+
+# Pliki kopii zapasowych
+*.bak
+*.bak~
+
+# Wygenerowane pliki PDF z LaTeXa (opcjonalnie mozna odkomentowac/zakomentowac w zaleznosci od potrzeb)
+*.pdf

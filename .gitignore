@@ -1,0 +1,11 @@
+# Ignore everything by default
+*
+!/.gitignore
+
+# Allow explicitly the informatyka directory and its subdirectories
+!/informatyka/
+!/informatyka/**/
+
+# Allow tex and js files
+!*.tex
+!*.js

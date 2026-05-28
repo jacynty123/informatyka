@@ -1,0 +1,1135 @@
+% ============================================================
+%  Baza 25 Zestawów Zaliczeniowych
+%  Całkowanie Równań Różniczkowych Zwyczajnych w MATLAB
+% ============================================================
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{geometry}
+\geometry{margin=2.2cm}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{mdframed}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Równania Różniczkowe Zwyczajne -- MATLAB}
+\lhead{Baza Zadań}
+
+\setlength{\parindent}{0pt}
+
+\newmdenv[
+  linewidth=0.8pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt
+]{ramka}
+
+\begin{document}
+\begin{center}
+  {\large\bfseries Zestaw nr 1 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 1, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{switch/case}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako liczbę: wpisując \textbf{'10'} rozwiązuje pojedyncze równanie, wpisując \textbf{'20'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = 0.5y - t^2 \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $t \in \langle 1;\,4 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode45}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres linią przerywaną szarą, a punkty obliczone przez solver oznacz gwiazdkami ('*'). Dodaj podpisy osi oraz tytuł. Wykres bez siatki (grid off).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dx} = 2y_1 - 3y_2 + x \\
+      \frac{dy_2}{dx} = y_1 + y_2 - x^2
+    \end{cases}
+    \]
+    Parametry wprowadza użytkownik z klawiatury (skok całkowania oraz warunki początkowe $ {y_1}_{0} $ i $ {y_2}_{0} $). Przedział całkowania $x \in \langle 1;\,5 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode23}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj grubą linią czarną, a drugiej -- linią ciągłą zieloną. Punkty numeryczne obliczone przez solver zaznacz gwiazdkami ('*'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w najlepszym dopasowanym miejscu ('best'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Wykres bez siatki (grid off).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{ode45}, \texttt{ode23}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 2 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 2, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako tekst: wpisując \textbf{'pojedyncze'} rozwiązuje pojedyncze równanie, wpisując \textbf{'uklad'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dx} = -y\cos(x) + e^{-x} \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $x \in \langle 2;\,6 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode23}. Następnie wygeneruj wykres zależności $y(x)$. Narysuj wykres grubą linią zieloną, a punkty obliczone przez solver oznacz kwadratami ('s'). Dodaj podpisy osi oraz tytuł. Siatka jest obowiązkowa.
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dt} = y_2 - t \\
+      \frac{dy_2}{dt} = -y_1 + y_2
+    \end{cases}
+    \]
+    Parametry wprowadza użytkownik z klawiatury (skok całkowania oraz warunki początkowe $ {y_1}_{0} $ i $ {y_2}_{0} $). Przedział całkowania $t \in \langle 2;\,5 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode45}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią ciągłą magenta, a drugiej -- linią przerywaną czarną. Punkty numeryczne obliczone przez solver zaznacz kwadratami ('s'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w prawym dolnym rogu ('southeast'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Siatka jest obowiązkowa.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode23}, \texttt{ode45}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 3 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 3, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{switch/case}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako tekst: wpisując \textbf{'p'} rozwiązuje pojedyncze równanie, wpisując \textbf{'u'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dx} = 2x - 3y + 1 \]
+    Zdefiniuj zmienne na sztywno w kodzie: krok całkowania równy $0{,}07$, warunek początkowy $y_0 = -0{,}5$. Przedział całkowania $x \in \langle 3;\,5 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode45}. Następnie wygeneruj wykres zależności $y(x)$. Narysuj wykres cienką linią czarną, a punkty obliczone przez solver oznacz krzyżykami ('+'). Dodaj podpisy osi oraz tytuł. Zastosuj gęstą siatkę (grid minor).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dx} = -2y_1 + y_2 \\
+      \frac{dy_2}{dx} = 0.5y_1 - y_2 + \sin(x)
+    \end{cases}
+    \]
+    Parametry podane są jako liczby przypisane do zmiennych wymuszonych w locie (bez instrukcji input): skok całkowania $0{,}10$, warunek startowy $ {y_1}_{0} = 3 $, $ {y_2}_{0} = 5 $. Przedział całkowania to $x \in \langle 0;\,4 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode23}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią kropkowaną niebieską, a drugiej -- grubą linią czerwoną. Punkty numeryczne obliczone przez solver zaznacz krzyżykami ('+'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją poza obszarem osi ('outside'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Zastosuj gęstą siatkę (grid minor).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{ode45}, \texttt{ode23}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 4 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 4, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako tekst: wpisując \textbf{'zad1'} rozwiązuje pojedyncze równanie, wpisując \textbf{'zad2'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = -0.1y + \sin(2t) \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $t \in \langle 4;\,7 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode23}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres linią ciągłą niebieską, a punkty obliczone przez solver oznacz rombami ('d'). Dodaj podpisy osi oraz tytuł. Dodaj standardową siatkę.
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dt} = y_1(1 - y_2) \\
+      \frac{dy_2}{dt} = -y_2(1 - y_1)
+    \end{cases}
+    \]
+    Parametry wprowadza użytkownik z klawiatury (skok całkowania oraz warunki początkowe $ {y_1}_{0} $ i $ {y_2}_{0} $). Przedział całkowania $t \in \langle 1;\,4 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode45}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią przerywaną zieloną, a drugiej -- linią ciągłą czarną. Punkty numeryczne obliczone przez solver zaznacz rombami ('d'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w lewym dolnym rogu ('southwest'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Dodaj standardową siatkę.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode23}, \texttt{ode45}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 5 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 5, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera zadanie podając liczbę. Opcja dla jednego równania: liczba należąca do przedziału $(0; 1\rangle$. Opcja dla układu: liczba należąca do przedziału $\langle 2; 3)$. Obsłuż wariant błędny komunikatem: \textit{Wprowadzono niepoprawną liczbę}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dx} = \frac{x^2 - y}{2} \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $x \in \langle 0;\,4 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode45}. Następnie wygeneruj wykres zależności $y(x)$. Narysuj wykres linią ciągłą w kolorze czerwonym, a punkty obliczone przez solver oznacz kółkami ('o'). Dodaj podpisy osi oraz tytuł. Włącz podstawową siatkę (grid on).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dx} = 1.5y_1 - \cos(y_2) \\
+      \frac{dy_2}{dx} = -0.5y_2 + \sin(x)
+    \end{cases}
+    \]
+    Parametry podane są jako liczby przypisane do zmiennych wymuszonych w locie (bez instrukcji input): skok całkowania $0{,}10$, warunek startowy $ {y_1}_{0} = 1 $, $ {y_2}_{0} = 3 $. Przedział całkowania to $x \in \langle 2;\,6 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode23}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią przerywaną niebieską, a drugiej -- linią kropkowaną czerwoną. Punkty numeryczne obliczone przez solver zaznacz kółkami ('o'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w lewym górnym rogu ('northwest'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Włącz podstawową siatkę (grid on).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode45}, \texttt{ode23}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 6 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 6, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako liczbę: wpisując \textbf{'1'} rozwiązuje pojedyncze równanie, wpisując \textbf{'2'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = 1 - y^2 \]
+    Zdefiniuj zmienne na sztywno w kodzie: krok całkowania równy $0{,}03$, warunek początkowy $y_0 = 1{,}0$. Przedział całkowania $t \in \langle 1;\,3 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode23}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres linią przerywaną szarą, a punkty obliczone przez solver oznacz gwiazdkami ('*'). Dodaj podpisy osi oraz tytuł. Wykres bez siatki (grid off).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dt} = -y_1 + e^{-t}y_2 \\
+      \frac{dy_2}{dt} = -y_2 + e^{t}y_1
+    \end{cases}
+    \]
+    Parametry podane są jako liczby przypisane do zmiennych wymuszonych w locie (bez instrukcji input): skok całkowania $0{,}05$, warunek startowy $ {y_1}_{0} = 2 $, $ {y_2}_{0} = 5 $. Przedział całkowania to $t \in \langle 0;\,3 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode45}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj grubą linią czarną, a drugiej -- linią ciągłą zieloną. Punkty numeryczne obliczone przez solver zaznacz gwiazdkami ('*'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w najlepszym dopasowanym miejscu ('best'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Wykres bez siatki (grid off).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode23}, \texttt{ode45}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 7 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 7, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{switch/case}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako liczbę: wpisując \textbf{'10'} rozwiązuje pojedyncze równanie, wpisując \textbf{'20'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dx} = e^{-x} - 2y \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $x \in \langle 2;\,5 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode45}. Następnie wygeneruj wykres zależności $y(x)$. Narysuj wykres grubą linią zieloną, a punkty obliczone przez solver oznacz kwadratami ('s'). Dodaj podpisy osi oraz tytuł. Siatka jest obowiązkowa.
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dx} = 0.1y_1 - \cos(y_2) + x \\
+      \frac{dy_2}{dx} = -2y_2 + \sin(y_1)
+    \end{cases}
+    \]
+    Parametry wprowadza użytkownik z klawiatury (skok całkowania oraz warunki początkowe $ {y_1}_{0} $ i $ {y_2}_{0} $). Przedział całkowania $x \in \langle 1;\,5 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode23}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią ciągłą magenta, a drugiej -- linią przerywaną czarną. Punkty numeryczne obliczone przez solver zaznacz kwadratami ('s'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w prawym dolnym rogu ('southeast'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Siatka jest obowiązkowa.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{ode45}, \texttt{ode23}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 8 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 8, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako tekst: wpisując \textbf{'pojedyncze'} rozwiązuje pojedyncze równanie, wpisując \textbf{'uklad'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = y\sin(t) \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $t \in \langle 3;\,7 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode23}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres cienką linią czarną, a punkty obliczone przez solver oznacz krzyżykami ('+'). Dodaj podpisy osi oraz tytuł. Zastosuj gęstą siatkę (grid minor).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dt} = 0.5y_1 - 0.2y_2 \\
+      \frac{dy_2}{dt} = 0.1y_1 - 0.3y_2
+    \end{cases}
+    \]
+    Parametry wprowadza użytkownik z klawiatury (skok całkowania oraz warunki początkowe $ {y_1}_{0} $ i $ {y_2}_{0} $). Przedział całkowania $t \in \langle 2;\,5 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode45}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią kropkowaną niebieską, a drugiej -- grubą linią czerwoną. Punkty numeryczne obliczone przez solver zaznacz krzyżykami ('+'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją poza obszarem osi ('outside'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Zastosuj gęstą siatkę (grid minor).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode23}, \texttt{ode45}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 9 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 9, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{switch/case}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako tekst: wpisując \textbf{'p'} rozwiązuje pojedyncze równanie, wpisując \textbf{'u'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = -1.5y + 3\cos(2t)e^{-t} \]
+    Zdefiniuj zmienne na sztywno w kodzie: krok całkowania równy $0{,}09$, warunek początkowy $y_0 = 2{,}5$. Przedział całkowania $t \in \langle 4;\,6 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode45}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres linią ciągłą niebieską, a punkty obliczone przez solver oznacz rombami ('d'). Dodaj podpisy osi oraz tytuł. Dodaj standardową siatkę.
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dx} = -y_1 + y_2^2 \\
+      \frac{dy_2}{dx} = y_1 - y_2
+    \end{cases}
+    \]
+    Parametry podane są jako liczby przypisane do zmiennych wymuszonych w locie (bez instrukcji input): skok całkowania $0{,}10$, warunek startowy $ {y_1}_{0} = 1 $, $ {y_2}_{0} = 5 $. Przedział całkowania to $x \in \langle 0;\,4 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode23}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią przerywaną zieloną, a drugiej -- linią ciągłą czarną. Punkty numeryczne obliczone przez solver zaznacz rombami ('d'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w lewym dolnym rogu ('southwest'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Dodaj standardową siatkę.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{ode45}, \texttt{ode23}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 10 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 10, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako tekst: wpisując \textbf{'zad1'} rozwiązuje pojedyncze równanie, wpisując \textbf{'zad2'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = -2\sin(y) + 1.5\cos(5t) + 3 \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $t \in \langle 0;\,3 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode23}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres linią ciągłą w kolorze czerwonym, a punkty obliczone przez solver oznacz kółkami ('o'). Dodaj podpisy osi oraz tytuł. Włącz podstawową siatkę (grid on).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dt} = \sin(y_2) - y_1 \\
+      \frac{dy_2}{dt} = \cos(y_1) - y_2
+    \end{cases}
+    \]
+    Parametry wprowadza użytkownik z klawiatury (skok całkowania oraz warunki początkowe $ {y_1}_{0} $ i $ {y_2}_{0} $). Przedział całkowania $t \in \langle 1;\,4 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode45}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią przerywaną niebieską, a drugiej -- linią kropkowaną czerwoną. Punkty numeryczne obliczone przez solver zaznacz kółkami ('o'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w lewym górnym rogu ('northwest'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Włącz podstawową siatkę (grid on).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode23}, \texttt{ode45}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 11 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 11, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera zadanie podając liczbę. Opcja dla jednego równania: liczba należąca do przedziału $(0; 1\rangle$. Opcja dla układu: liczba należąca do przedziału $\langle 2; 3)$. Obsłuż wariant błędny komunikatem: \textit{Wprowadzono niepoprawną liczbę}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = 0.5y - t^2 \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $t \in \langle 1;\,5 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode45}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres linią przerywaną szarą, a punkty obliczone przez solver oznacz gwiazdkami ('*'). Dodaj podpisy osi oraz tytuł. Wykres bez siatki (grid off).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dx} = 2y_1 - 3y_2 + x \\
+      \frac{dy_2}{dx} = y_1 + y_2 - x^2
+    \end{cases}
+    \]
+    Parametry podane są jako liczby przypisane do zmiennych wymuszonych w locie (bez instrukcji input): skok całkowania $0{,}10$, warunek startowy $ {y_1}_{0} = 3 $, $ {y_2}_{0} = 3 $. Przedział całkowania to $x \in \langle 2;\,6 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode23}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj grubą linią czarną, a drugiej -- linią ciągłą zieloną. Punkty numeryczne obliczone przez solver zaznacz gwiazdkami ('*'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w najlepszym dopasowanym miejscu ('best'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Wykres bez siatki (grid off).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode45}, \texttt{ode23}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 12 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 12, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako liczbę: wpisując \textbf{'1'} rozwiązuje pojedyncze równanie, wpisując \textbf{'2'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dx} = -y\cos(x) + e^{-x} \]
+    Zdefiniuj zmienne na sztywno w kodzie: krok całkowania równy $0{,}05$, warunek początkowy $y_0 = 4{,}0$. Przedział całkowania $x \in \langle 2;\,4 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode23}. Następnie wygeneruj wykres zależności $y(x)$. Narysuj wykres grubą linią zieloną, a punkty obliczone przez solver oznacz kwadratami ('s'). Dodaj podpisy osi oraz tytuł. Siatka jest obowiązkowa.
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dt} = y_2 - t \\
+      \frac{dy_2}{dt} = -y_1 + y_2
+    \end{cases}
+    \]
+    Parametry podane są jako liczby przypisane do zmiennych wymuszonych w locie (bez instrukcji input): skok całkowania $0{,}05$, warunek startowy $ {y_1}_{0} = 0 $, $ {y_2}_{0} = 5 $. Przedział całkowania to $t \in \langle 0;\,3 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode45}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią ciągłą magenta, a drugiej -- linią przerywaną czarną. Punkty numeryczne obliczone przez solver zaznacz kwadratami ('s'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w prawym dolnym rogu ('southeast'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Siatka jest obowiązkowa.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode23}, \texttt{ode45}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 13 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 13, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{switch/case}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako liczbę: wpisując \textbf{'10'} rozwiązuje pojedyncze równanie, wpisując \textbf{'20'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dx} = 2x - 3y + 1 \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $x \in \langle 3;\,6 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode45}. Następnie wygeneruj wykres zależności $y(x)$. Narysuj wykres cienką linią czarną, a punkty obliczone przez solver oznacz krzyżykami ('+'). Dodaj podpisy osi oraz tytuł. Zastosuj gęstą siatkę (grid minor).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dx} = -2y_1 + y_2 \\
+      \frac{dy_2}{dx} = 0.5y_1 - y_2 + \sin(x)
+    \end{cases}
+    \]
+    Parametry wprowadza użytkownik z klawiatury (skok całkowania oraz warunki początkowe $ {y_1}_{0} $ i $ {y_2}_{0} $). Przedział całkowania $x \in \langle 1;\,5 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode23}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią kropkowaną niebieską, a drugiej -- grubą linią czerwoną. Punkty numeryczne obliczone przez solver zaznacz krzyżykami ('+'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją poza obszarem osi ('outside'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Zastosuj gęstą siatkę (grid minor).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{ode45}, \texttt{ode23}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 14 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 14, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako tekst: wpisując \textbf{'pojedyncze'} rozwiązuje pojedyncze równanie, wpisując \textbf{'uklad'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = -0.1y + \sin(2t) \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $t \in \langle 4;\,8 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode23}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres linią ciągłą niebieską, a punkty obliczone przez solver oznacz rombami ('d'). Dodaj podpisy osi oraz tytuł. Dodaj standardową siatkę.
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dt} = y_1(1 - y_2) \\
+      \frac{dy_2}{dt} = -y_2(1 - y_1)
+    \end{cases}
+    \]
+    Parametry wprowadza użytkownik z klawiatury (skok całkowania oraz warunki początkowe $ {y_1}_{0} $ i $ {y_2}_{0} $). Przedział całkowania $t \in \langle 2;\,5 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode45}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią przerywaną zieloną, a drugiej -- linią ciągłą czarną. Punkty numeryczne obliczone przez solver zaznacz rombami ('d'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w lewym dolnym rogu ('southwest'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Dodaj standardową siatkę.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode23}, \texttt{ode45}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 15 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 15, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{switch/case}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako tekst: wpisując \textbf{'p'} rozwiązuje pojedyncze równanie, wpisując \textbf{'u'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dx} = \frac{x^2 - y}{2} \]
+    Zdefiniuj zmienne na sztywno w kodzie: krok całkowania równy $0{,}01$, warunek początkowy $y_0 = 5{,}5$. Przedział całkowania $x \in \langle 0;\,2 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode45}. Następnie wygeneruj wykres zależności $y(x)$. Narysuj wykres linią ciągłą w kolorze czerwonym, a punkty obliczone przez solver oznacz kółkami ('o'). Dodaj podpisy osi oraz tytuł. Włącz podstawową siatkę (grid on).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dx} = 1.5y_1 - \cos(y_2) \\
+      \frac{dy_2}{dx} = -0.5y_2 + \sin(x)
+    \end{cases}
+    \]
+    Parametry podane są jako liczby przypisane do zmiennych wymuszonych w locie (bez instrukcji input): skok całkowania $0{,}10$, warunek startowy $ {y_1}_{0} = 3 $, $ {y_2}_{0} = 5 $. Przedział całkowania to $x \in \langle 0;\,4 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode23}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią przerywaną niebieską, a drugiej -- linią kropkowaną czerwoną. Punkty numeryczne obliczone przez solver zaznacz kółkami ('o'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w lewym górnym rogu ('northwest'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Włącz podstawową siatkę (grid on).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{ode45}, \texttt{ode23}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 16 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 16, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako tekst: wpisując \textbf{'zad1'} rozwiązuje pojedyncze równanie, wpisując \textbf{'zad2'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = 1 - y^2 \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $t \in \langle 1;\,4 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode23}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres linią przerywaną szarą, a punkty obliczone przez solver oznacz gwiazdkami ('*'). Dodaj podpisy osi oraz tytuł. Wykres bez siatki (grid off).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dt} = -y_1 + e^{-t}y_2 \\
+      \frac{dy_2}{dt} = -y_2 + e^{t}y_1
+    \end{cases}
+    \]
+    Parametry wprowadza użytkownik z klawiatury (skok całkowania oraz warunki początkowe $ {y_1}_{0} $ i $ {y_2}_{0} $). Przedział całkowania $t \in \langle 1;\,4 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode45}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj grubą linią czarną, a drugiej -- linią ciągłą zieloną. Punkty numeryczne obliczone przez solver zaznacz gwiazdkami ('*'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w najlepszym dopasowanym miejscu ('best'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Wykres bez siatki (grid off).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode23}, \texttt{ode45}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 17 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 17, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera zadanie podając liczbę. Opcja dla jednego równania: liczba należąca do przedziału $(0; 1\rangle$. Opcja dla układu: liczba należąca do przedziału $\langle 2; 3)$. Obsłuż wariant błędny komunikatem: \textit{Wprowadzono niepoprawną liczbę}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dx} = e^{-x} - 2y \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $x \in \langle 2;\,6 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode45}. Następnie wygeneruj wykres zależności $y(x)$. Narysuj wykres grubą linią zieloną, a punkty obliczone przez solver oznacz kwadratami ('s'). Dodaj podpisy osi oraz tytuł. Siatka jest obowiązkowa.
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dx} = 0.1y_1 - \cos(y_2) + x \\
+      \frac{dy_2}{dx} = -2y_2 + \sin(y_1)
+    \end{cases}
+    \]
+    Parametry podane są jako liczby przypisane do zmiennych wymuszonych w locie (bez instrukcji input): skok całkowania $0{,}10$, warunek startowy $ {y_1}_{0} = 1 $, $ {y_2}_{0} = 3 $. Przedział całkowania to $x \in \langle 2;\,6 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode23}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią ciągłą magenta, a drugiej -- linią przerywaną czarną. Punkty numeryczne obliczone przez solver zaznacz kwadratami ('s'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w prawym dolnym rogu ('southeast'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Siatka jest obowiązkowa.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode45}, \texttt{ode23}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 18 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 18, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako liczbę: wpisując \textbf{'1'} rozwiązuje pojedyncze równanie, wpisując \textbf{'2'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = y\sin(t) \]
+    Zdefiniuj zmienne na sztywno w kodzie: krok całkowania równy $0{,}07$, warunek początkowy $y_0 = 7{,}0$. Przedział całkowania $t \in \langle 3;\,5 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode23}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres cienką linią czarną, a punkty obliczone przez solver oznacz krzyżykami ('+'). Dodaj podpisy osi oraz tytuł. Zastosuj gęstą siatkę (grid minor).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dt} = 0.5y_1 - 0.2y_2 \\
+      \frac{dy_2}{dt} = 0.1y_1 - 0.3y_2
+    \end{cases}
+    \]
+    Parametry podane są jako liczby przypisane do zmiennych wymuszonych w locie (bez instrukcji input): skok całkowania $0{,}05$, warunek startowy $ {y_1}_{0} = 2 $, $ {y_2}_{0} = 5 $. Przedział całkowania to $t \in \langle 0;\,3 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode45}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią kropkowaną niebieską, a drugiej -- grubą linią czerwoną. Punkty numeryczne obliczone przez solver zaznacz krzyżykami ('+'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją poza obszarem osi ('outside'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Zastosuj gęstą siatkę (grid minor).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode23}, \texttt{ode45}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 19 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 19, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{switch/case}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako liczbę: wpisując \textbf{'10'} rozwiązuje pojedyncze równanie, wpisując \textbf{'20'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = -1.5y + 3\cos(2t)e^{-t} \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $t \in \langle 4;\,7 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode45}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres linią ciągłą niebieską, a punkty obliczone przez solver oznacz rombami ('d'). Dodaj podpisy osi oraz tytuł. Dodaj standardową siatkę.
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dx} = -y_1 + y_2^2 \\
+      \frac{dy_2}{dx} = y_1 - y_2
+    \end{cases}
+    \]
+    Parametry wprowadza użytkownik z klawiatury (skok całkowania oraz warunki początkowe $ {y_1}_{0} $ i $ {y_2}_{0} $). Przedział całkowania $x \in \langle 1;\,5 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode23}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią przerywaną zieloną, a drugiej -- linią ciągłą czarną. Punkty numeryczne obliczone przez solver zaznacz rombami ('d'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w lewym dolnym rogu ('southwest'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Dodaj standardową siatkę.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{ode45}, \texttt{ode23}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 20 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 20, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako tekst: wpisując \textbf{'pojedyncze'} rozwiązuje pojedyncze równanie, wpisując \textbf{'uklad'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = -2\sin(y) + 1.5\cos(5t) + 3 \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $t \in \langle 0;\,4 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode23}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres linią ciągłą w kolorze czerwonym, a punkty obliczone przez solver oznacz kółkami ('o'). Dodaj podpisy osi oraz tytuł. Włącz podstawową siatkę (grid on).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dt} = \sin(y_2) - y_1 \\
+      \frac{dy_2}{dt} = \cos(y_1) - y_2
+    \end{cases}
+    \]
+    Parametry wprowadza użytkownik z klawiatury (skok całkowania oraz warunki początkowe $ {y_1}_{0} $ i $ {y_2}_{0} $). Przedział całkowania $t \in \langle 2;\,5 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode45}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią przerywaną niebieską, a drugiej -- linią kropkowaną czerwoną. Punkty numeryczne obliczone przez solver zaznacz kółkami ('o'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w lewym górnym rogu ('northwest'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Włącz podstawową siatkę (grid on).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode23}, \texttt{ode45}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 21 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 21, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{switch/case}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako tekst: wpisując \textbf{'p'} rozwiązuje pojedyncze równanie, wpisując \textbf{'u'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = 0.5y - t^2 \]
+    Zdefiniuj zmienne na sztywno w kodzie: krok całkowania równy $0{,}03$, warunek początkowy $y_0 = 8{,}5$. Przedział całkowania $t \in \langle 1;\,3 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode45}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres linią przerywaną szarą, a punkty obliczone przez solver oznacz gwiazdkami ('*'). Dodaj podpisy osi oraz tytuł. Wykres bez siatki (grid off).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dx} = 2y_1 - 3y_2 + x \\
+      \frac{dy_2}{dx} = y_1 + y_2 - x^2
+    \end{cases}
+    \]
+    Parametry podane są jako liczby przypisane do zmiennych wymuszonych w locie (bez instrukcji input): skok całkowania $0{,}10$, warunek startowy $ {y_1}_{0} = 1 $, $ {y_2}_{0} = 5 $. Przedział całkowania to $x \in \langle 0;\,4 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode23}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj grubą linią czarną, a drugiej -- linią ciągłą zieloną. Punkty numeryczne obliczone przez solver zaznacz gwiazdkami ('*'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w najlepszym dopasowanym miejscu ('best'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Wykres bez siatki (grid off).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{ode45}, \texttt{ode23}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 22 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 22, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako tekst: wpisując \textbf{'zad1'} rozwiązuje pojedyncze równanie, wpisując \textbf{'zad2'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dx} = -y\cos(x) + e^{-x} \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $x \in \langle 2;\,5 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode23}. Następnie wygeneruj wykres zależności $y(x)$. Narysuj wykres grubą linią zieloną, a punkty obliczone przez solver oznacz kwadratami ('s'). Dodaj podpisy osi oraz tytuł. Siatka jest obowiązkowa.
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dt} = y_2 - t \\
+      \frac{dy_2}{dt} = -y_1 + y_2
+    \end{cases}
+    \]
+    Parametry wprowadza użytkownik z klawiatury (skok całkowania oraz warunki początkowe $ {y_1}_{0} $ i $ {y_2}_{0} $). Przedział całkowania $t \in \langle 1;\,4 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode45}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią ciągłą magenta, a drugiej -- linią przerywaną czarną. Punkty numeryczne obliczone przez solver zaznacz kwadratami ('s'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w prawym dolnym rogu ('southeast'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Siatka jest obowiązkowa.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode23}, \texttt{ode45}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 23 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 23, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera zadanie podając liczbę. Opcja dla jednego równania: liczba należąca do przedziału $(0; 1\rangle$. Opcja dla układu: liczba należąca do przedziału $\langle 2; 3)$. Obsłuż wariant błędny komunikatem: \textit{Wprowadzono niepoprawną liczbę}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dx} = 2x - 3y + 1 \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $x \in \langle 3;\,7 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode45}. Następnie wygeneruj wykres zależności $y(x)$. Narysuj wykres cienką linią czarną, a punkty obliczone przez solver oznacz krzyżykami ('+'). Dodaj podpisy osi oraz tytuł. Zastosuj gęstą siatkę (grid minor).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dx} = -2y_1 + y_2 \\
+      \frac{dy_2}{dx} = 0.5y_1 - y_2 + \sin(x)
+    \end{cases}
+    \]
+    Parametry podane są jako liczby przypisane do zmiennych wymuszonych w locie (bez instrukcji input): skok całkowania $0{,}10$, warunek startowy $ {y_1}_{0} = 3 $, $ {y_2}_{0} = 3 $. Przedział całkowania to $x \in \langle 2;\,6 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode23}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią kropkowaną niebieską, a drugiej -- grubą linią czerwoną. Punkty numeryczne obliczone przez solver zaznacz krzyżykami ('+'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją poza obszarem osi ('outside'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Zastosuj gęstą siatkę (grid minor).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode45}, \texttt{ode23}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 24 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 24, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{if/else}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako liczbę: wpisując \textbf{'1'} rozwiązuje pojedyncze równanie, wpisując \textbf{'2'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dt} = -0.1y + \sin(2t) \]
+    Zdefiniuj zmienne na sztywno w kodzie: krok całkowania równy $0{,}09$, warunek początkowy $y_0 = 10{,}0$. Przedział całkowania $t \in \langle 4;\,6 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode23}. Następnie wygeneruj wykres zależności $y(t)$. Narysuj wykres linią ciągłą niebieską, a punkty obliczone przez solver oznacz rombami ('d'). Dodaj podpisy osi oraz tytuł. Dodaj standardową siatkę.
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dt} = y_1(1 - y_2) \\
+      \frac{dy_2}{dt} = -y_2(1 - y_1)
+    \end{cases}
+    \]
+    Parametry podane są jako liczby przypisane do zmiennych wymuszonych w locie (bez instrukcji input): skok całkowania $0{,}05$, warunek startowy $ {y_1}_{0} = 0 $, $ {y_2}_{0} = 5 $. Przedział całkowania to $t \in \langle 0;\,3 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode45}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią przerywaną zieloną, a drugiej -- linią ciągłą czarną. Punkty numeryczne obliczone przez solver zaznacz rombami ('d'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w lewym dolnym rogu ('southwest'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Dodaj standardową siatkę.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{ode23}, \texttt{ode45}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 25 \quad -- \quad Całkowanie równań różniczkowych zwyczajnych}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Polecenia}
+
+Napisz skrypt w programie MATLAB rozwiązujący podane zagadnienia początkowe. Skrypt musi pobierać od użytkownika wybór zadania (wybór z menu).
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 25, wyczyszczenie środowiska roboczego, ekranu oraz zamknięcie wszystkich otwartych okien graficznych.
+
+  \item \textbf{Wybór zadania -- \texttt{switch/case}.}
+    Wyświetl czytelne menu. Użytkownik wybiera opcję jako liczbę: wpisując \textbf{'10'} rozwiązuje pojedyncze równanie, wpisując \textbf{'20'} rozwiązuje układ równań. Obsłuż wariant błędny komunikatem: \textit{Niepoprawny wybór}.
+
+  \item \textbf{Opcja 1: Pojedyncze równanie.}
+    Rozwiąż równanie zdefiniowane we wbudowanej funkcji (tzw. \textit{lokalnej} na dole pliku):
+    \[ \frac{dy}{dx} = \frac{x^2 - y}{2} \]
+    Poproś użytkownika instrukcją \texttt{input} o~podanie \textbf{kroku całkowania} (np. skok) oraz \textbf{warunku początkowego} $y_0$. Przyjmij przedział całkowania $x \in \langle 0;\,3 \rangle$.
+    Do obliczeń wykorzystaj solver \texttt{ode45}. Następnie wygeneruj wykres zależności $y(x)$. Narysuj wykres linią ciągłą w kolorze czerwonym, a punkty obliczone przez solver oznacz kółkami ('o'). Dodaj podpisy osi oraz tytuł. Włącz podstawową siatkę (grid on).
+
+  \item \textbf{Opcja 2: Układ równań.}
+    Rozwiąż układ równań zdefiniowany w jednej funkcji:\\[-0.5em]
+    \[
+    \begin{cases}
+      \frac{dy_1}{dx} = 1.5y_1 - \cos(y_2) \\
+      \frac{dy_2}{dx} = -0.5y_2 + \sin(x)
+    \end{cases}
+    \]
+    Parametry wprowadza użytkownik z klawiatury (skok całkowania oraz warunki początkowe $ {y_1}_{0} $ i $ {y_2}_{0} $). Przedział całkowania $x \in \langle 1;\,5 \rangle$.
+    Rozwiąż układ równań wykorzystując solver \texttt{ode23}. Wykresy wynikowych zmiennych przedstaw na wspólnym układzie współrzędnych. Przebieg pierwszej zmiennej narysuj linią przerywaną niebieską, a drugiej -- linią kropkowaną czerwoną. Punkty numeryczne obliczone przez solver zaznacz kółkami ('o'). Dodaj legendę jednoznacznie opisującą każdą z krzywych i umieść ją w lewym górnym rogu ('northwest'). Koniecznie podpisz osie oraz dodaj tytuł wykresu. Włącz podstawową siatkę (grid on).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{ode45}, \texttt{ode23}, \texttt{plot}, użycie funkcji lokalnych (local functions).
+\end{ramka}
+
+\end{document}

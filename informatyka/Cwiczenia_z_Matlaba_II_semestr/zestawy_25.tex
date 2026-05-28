@@ -1,0 +1,1360 @@
+% ============================================================
+%  Baza 25 Zestawów Zaliczeniowych
+%  Interpolacja i aproksymacja w MATLAB
+% ============================================================
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{geometry}
+\geometry{margin=2.2cm}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{mdframed}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Interpolacja i aproksymacja -- MATLAB}
+\lhead{Baza Zadań}
+
+\setlength{\parindent}{0pt}
+
+\newmdenv[
+  linewidth=0.8pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt
+]{ramka}
+
+\begin{document}
+\begin{center}
+  {\large\bfseries Zestaw nr 1 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dany jest zbiór 6 punktów pomiarowych (reprezentujących czas trwania $t$ oraz temperatura $T$):
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+  \toprule
+  $t$ [$h$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ \\
+  \midrule
+  $T$ [$^\circ\text{C}$] & $2{,}719$ & $3{,}637$ & $3{,}496$ & $3{,}595$ & $2{,}898$ & $2{,}362$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 1, wyczyszczenie środowiska, wektory $t$ i~$T$.
+
+  \item \textbf{Wybór metody -- \texttt{switch/case}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako liczbę: \textbf{10} -- aproksymacja, \textbf{20} -- interpolacja. W podjęciu decyzji użyj struktury \texttt{switch/case}. Gałąź chwytająca błędy musi wyświetlić komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Poproś użytkownika o podanie wartości zmiennej niezależnej $t_i$ (użytkownik podaje dowolną wartość $t_i \in \langle 0{,}5;\,3{,}1 \rangle$). Sprawdź poprawność wprowadzonych danych. Wyznacz wielomian \textbf{3.~stopnia} metodą najmniejszych kwadratów, oblicz jego wartość w~$t_i$, zapisz do odpowiedniej zmiennej i~wyświetl wynik w formacie do 4 miejsc po przecinku.
+
+  \item \textbf{Interpolacja (zagnieżdżony wybór).}
+    Jeżeli użytkownik wybrał interpolację, użyj zagnieżdżonej instrukcji warunkowej w celu dopytania szczegółów. Sprawdź poprawność wyboru. Daj wybór opcji:
+    \begin{itemize}[itemsep=1pt]
+      \item \textbf{a} -- interpolacja przedziałowa 'pchip' w~$t_i = 1{,}2$ (użyj \texttt{interp1(..., 'pchip')}); zapisz do zmiennej i~wyświetl wynik do 4 miejsc po przecinku.
+      \item \textbf{b} -- interpolacja metoda 'nearest'; oblicz wartość w~$t_i = 2{,}3$, zapisz wynik i~wyświetl w formacie do 4 miejsc po przecinku.
+      \item \textbf{błąd} -- wyświetl komunikat: Błędne dane wejściowe.
+    \end{itemize}
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor $t_p \in \langle 0{,}5;\,3{,}1 \rangle$ (300 punktów). Oblicz na nim wartości wyznaczonej krzywej. W przypadku interpolacji rysowana jest krzywa dla ostatecznie wybranej metody. Narysuj ją linią przerywaną w kolorze niebieskim, a punkty pomiarowe oznacz jako gwiazdki ('*'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i odpowiednio ułożoną legendę (w najlepszym dopasowanym miejscu ('best')). Wykres bez siatki (grid off).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 2 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dane pomiarowe reprezentują odległość $s$ oraz prędkość $v$.
+Dane są generowane z funkcji $v = 5\cos(s)e^{-0{,}1s}$ w~7 rozmieszczonych punktach węzłowych:
+
+\begin{center}
+\begin{tabular}{c|ccccccc}
+  \toprule
+  $s$ [$m$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ & $3{,}5$ \\
+  \midrule
+  $v$ [$\text{m/s}$] & $4{,}174$ & $2{,}032$ & $0{,}304$ & $-2{,}046$ & $-3{,}120$ & $-3{,}664$ & $-3{,}300$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\textit{Uwaga:} Wartości w tabeli są przykładowe – skrypt ma generować $v$ ze wzoru, nie używać gotowych liczb (pamiętaj o operatorze mnożenia tablicowego). Wartości w tabeli mogą się minimalnie różnić od dokładnych wyników funkcji.
+Wygeneruj wektory $s$ i~$v$ bezpośrednio w~skrypcie ze wzoru $v = 5\cos(s)e^{-0{,}1s}$.
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 2, wyczyszczenie środowiska, wektory $s$ i~$v$.
+
+  \item \textbf{Wybór metody -- \texttt{if/else}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{a} -- aproksymacja wielomianem 4.~stopnia, \textbf{i} -- interpolacja 'pchip'. Wariant błędny musi po prostu wyświetlać komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Wyznacz wielomian \textbf{4.~stopnia} metodą najmniejszych kwadratów. Oblicz jego wartość w~$s_i = 1{,}30$, zapisz wynik do zmiennej i~wyświetl (np. z dokładnością do 4 miejsc po przecinku).
+
+  \item \textbf{Interpolacja.}
+    Wyznacz wartość interpolowaną w~$s_i = 0{,}80$ metodą 'pchip'. Zapisz i wyświetl wynik w odpowiednim formacie (np. 4 miejsca po przecinku) oraz \textbf{błąd bezwzględny} względem wartości dokładnej.
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor reprezentujący przedział pomiarowy (150 badanych punktów). Narysuj na jednym wykresie wykreowane elementy: wyznaczoną w poprzednich krokach krzywą (zależnie od wyboru -- tylko aproksymacyjną albo tylko interpolacyjną) ukazaną linią kropkowaną czarną, funkcję dokładną narysowaną grubą linią zieloną oraz zbiór punktów eksperymentalnych ujętych jako kwadraty ('s'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i~legendę (w prawym dolnym rogu ('southeast')). Siatka jest obowiązkowa.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 3 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dany jest zbiór 5 punktów pomiarowych (reprezentujących ciśnienie $p$ oraz objętość $V$):
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+  \toprule
+  $p$ [$\text{hPa}$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ \\
+  \midrule
+  $V$ [$\text{dm}^3$] & $2{,}719$ & $3{,}637$ & $3{,}496$ & $3{,}595$ & $2{,}898$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 3, wyczyszczenie środowiska, wektory $p$ i~$V$.
+
+  \item \textbf{Wybór metody -- \texttt{switch/case}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{A} -- aproksymacja, \textbf{B} -- interpolacja. W podjęciu decyzji użyj struktury \texttt{switch/case}. Gałąź chwytająca błędy musi wyświetlić komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Poproś użytkownika o podanie wartości zmiennej niezależnej $p_i$ (użytkownik podaje dowolną wartość $p_i \in \langle 0{,}5;\,2{,}5 \rangle$). Sprawdź poprawność wprowadzonych danych. Wyznacz wielomian \textbf{2.~stopnia} metodą najmniejszych kwadratów, oblicz jego wartość w~$p_i$, zapisz do odpowiedniej zmiennej i~wyświetl wynik w formacie do 4 miejsc po przecinku.
+
+  \item \textbf{Interpolacja (zagnieżdżony wybór).}
+    Jeżeli użytkownik wybrał interpolację, użyj zagnieżdżonej instrukcji warunkowej w celu dopytania szczegółów. Sprawdź poprawność wyboru. Daj wybór opcji:
+    \begin{itemize}[itemsep=1pt]
+      \item \textbf{1} -- interpolacja przedziałowa 'linear' w~$p_i = 1{,}2$ (użyj \texttt{interp1(..., 'linear')}); zapisz do zmiennej i~wyświetl wynik do 4 miejsc po przecinku.
+      \item \textbf{2} -- interpolacja metoda 'spline'; oblicz wartość w~$p_i = 1{,}9$, zapisz wynik i~wyświetl w formacie do 4 miejsc po przecinku.
+      \item \textbf{błąd} -- wyświetl komunikat: Błędne dane wejściowe.
+    \end{itemize}
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor $p_p \in \langle 0{,}5;\,2{,}5 \rangle$ (500 punktów). Oblicz na nim wartości wyznaczonej krzywej. W przypadku interpolacji rysowana jest krzywa dla ostatecznie wybranej metody. Narysuj ją grubą linią magenta, a punkty pomiarowe oznacz jako krzyżyki ('+'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i odpowiednio ułożoną legendę (poza obszarem osi (parametr Location z przyrostkiem 'outside')). Zastosuj gęstą siatkę (grid minor).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 4 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dane pomiarowe reprezentują temperatura $T$ oraz opór $R$.
+Dane są generowane z funkcji $R = 3\sqrt{T}\ln(T+1)$ w~6 rozmieszczonych punktach węzłowych:
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+  \toprule
+  $T$ [$\text{K}$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ \\
+  \midrule
+  $R$ [$\Omega$] & $0{,}860$ & $2{,}334$ & $3{,}367$ & $4{,}919$ & $5{,}942$ & $7{,}453$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\textit{Uwaga:} Wartości w tabeli są przykładowe – skrypt ma generować $R$ ze wzoru, nie używać gotowych liczb (pamiętaj o operatorze mnożenia tablicowego). Wartości w tabeli mogą się minimalnie różnić od dokładnych wyników funkcji.
+Wygeneruj wektory $T$ i~$R$ bezpośrednio w~skrypcie ze wzoru $R = 3\sqrt{T}\ln(T+1)$.
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 4, wyczyszczenie środowiska, wektory $T$ i~$R$.
+
+  \item \textbf{Wybór metody -- \texttt{if/else}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{aproksymacja} -- aproksymacja wielomianem 3.~stopnia, \textbf{interpolacja} -- interpolacja 'linear'. Wariant błędny musi po prostu wyświetlać komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Wyznacz wielomian \textbf{3.~stopnia} metodą najmniejszych kwadratów. Oblicz jego wartość w~$T_i = 1{,}30$, zapisz wynik do zmiennej i~wyświetl (np. z dokładnością do 4 miejsc po przecinku).
+
+  \item \textbf{Interpolacja.}
+    Wyznacz wartość interpolowaną w~$T_i = 0{,}80$ metodą 'linear'. Zapisz i wyświetl wynik w odpowiednim formacie (np. 4 miejsca po przecinku) oraz \textbf{błąd bezwzględny} względem wartości dokładnej.
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor reprezentujący przedział pomiarowy (250 badanych punktów). Narysuj na jednym wykresie wykreowane elementy: wyznaczoną w poprzednich krokach krzywą (zależnie od wyboru -- tylko aproksymacyjną albo tylko interpolacyjną) ukazaną linią ciągłą niebieską, funkcję dokładną narysowaną linią ciągłą czerwoną oraz zbiór punktów eksperymentalnych ujętych jako romby ('d'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i~legendę (w lewym dolnym rogu ('southwest')). Dodaj standardową siatkę.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 5 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dany jest zbiór 7 punktów pomiarowych (reprezentujących stężenie $c$ oraz lepkość $\eta$):
+
+\begin{center}
+\begin{tabular}{c|ccccccc}
+  \toprule
+  $c$ [$\%$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ & $3{,}5$ \\
+  \midrule
+  $\eta$ [$\text{mPa}\cdot\text{s}$] & $2{,}719$ & $3{,}637$ & $3{,}496$ & $3{,}595$ & $2{,}898$ & $2{,}362$ & $1{,}474$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 5, wyczyszczenie środowiska, wektory $c$ i~$\eta$.
+
+  \item \textbf{Wybór metody -- \texttt{switch/case}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako liczbę: \textbf{1} -- aproksymacja, \textbf{2} -- interpolacja. W podjęciu decyzji użyj struktury \texttt{switch/case}. Gałąź chwytająca błędy musi wyświetlić komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Poproś użytkownika o podanie wartości zmiennej niezależnej $c_i$ (użytkownik podaje dowolną wartość $c_i \in \langle 0{,}5;\,3{,}5 \rangle$). Sprawdź poprawność wprowadzonych danych. Wyznacz wielomian \textbf{4.~stopnia} metodą najmniejszych kwadratów, oblicz jego wartość w~$c_i$, zapisz do odpowiedniej zmiennej i~wyświetl wynik w formacie do 4 miejsc po przecinku.
+
+  \item \textbf{Interpolacja (zagnieżdżony wybór).}
+    Jeżeli użytkownik wybrał interpolację, użyj zagnieżdżonej instrukcji warunkowej w celu dopytania szczegółów. Sprawdź poprawność wyboru. Daj wybór opcji:
+    \begin{itemize}[itemsep=1pt]
+      \item \textbf{a} -- interpolacja przedziałowa 'pchip' w~$c_i = 1{,}2$ (użyj \texttt{interp1(..., 'pchip')}); zapisz do zmiennej i~wyświetl wynik do 4 miejsc po przecinku.
+      \item \textbf{b} -- interpolacja metoda 'nearest'; oblicz wartość w~$c_i = 2{,}9$, zapisz wynik i~wyświetl w formacie do 4 miejsc po przecinku.
+      \item \textbf{błąd} -- wyświetl komunikat: Błędne dane wejściowe.
+    \end{itemize}
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor $c_p \in \langle 0{,}5;\,3{,}5 \rangle$ (200 punktów). Oblicz na nim wartości wyznaczonej krzywej. W przypadku interpolacji rysowana jest krzywa dla ostatecznie wybranej metody. Narysuj ją linią ciągłą w kolorze czerwonym, a punkty pomiarowe oznacz jako kółka ('o'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i odpowiednio ułożoną legendę (w lewym górnym rogu ('northwest')). Włącz podstawową siatkę (grid on).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 6 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dane pomiarowe reprezentują czas eksperymentu $t$ oraz masa $m$.
+Dane są generowane z funkcji $m = 4\sin(t) + 2\cos(3t)$ w~5 rozmieszczonych punktach węzłowych:
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+  \toprule
+  $t$ [$\text{min}$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ \\
+  \midrule
+  $m$ [$g$] & $2{,}059$ & $1{,}590$ & $3{,}568$ & $5{,}453$ & $3{,}087$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\textit{Uwaga:} Wartości w tabeli są przykładowe – skrypt ma generować $m$ ze wzoru, nie używać gotowych liczb (pamiętaj o operatorze mnożenia tablicowego). Wartości w tabeli mogą się minimalnie różnić od dokładnych wyników funkcji.
+Wygeneruj wektory $t$ i~$m$ bezpośrednio w~skrypcie ze wzoru $m = 4\sin(t) + 2\cos(3t)$.
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 6, wyczyszczenie środowiska, wektory $t$ i~$m$.
+
+  \item \textbf{Wybór metody -- \texttt{if/else}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako liczbę: \textbf{10} -- aproksymacja wielomianem 2.~stopnia, \textbf{20} -- interpolacja 'pchip'. Wariant błędny musi po prostu wyświetlać komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Wyznacz wielomian \textbf{2.~stopnia} metodą najmniejszych kwadratów. Oblicz jego wartość w~$t_i = 1{,}30$, zapisz wynik do zmiennej i~wyświetl (np. z dokładnością do 4 miejsc po przecinku).
+
+  \item \textbf{Interpolacja.}
+    Wyznacz wartość interpolowaną w~$t_i = 0{,}80$ metodą 'pchip'. Zapisz i wyświetl wynik w odpowiednim formacie (np. 4 miejsca po przecinku) oraz \textbf{błąd bezwzględny} względem wartości dokładnej.
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor reprezentujący przedział pomiarowy (300 badanych punktów). Narysuj na jednym wykresie wykreowane elementy: wyznaczoną w poprzednich krokach krzywą (zależnie od wyboru -- tylko aproksymacyjną albo tylko interpolacyjną) ukazaną linią przerywaną w kolorze niebieskim, funkcję dokładną narysowaną linią przerywaną szarą oraz zbiór punktów eksperymentalnych ujętych jako gwiazdki ('*'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i~legendę (w najlepszym dopasowanym miejscu ('best')). Wykres bez siatki (grid off).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 7 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dany jest zbiór 6 punktów pomiarowych (reprezentujących napięcie zasilania $U$ oraz natężenie $I$):
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+  \toprule
+  $U$ [$V$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ \\
+  \midrule
+  $I$ [$\text{mA}$] & $2{,}719$ & $3{,}637$ & $3{,}496$ & $3{,}595$ & $2{,}898$ & $2{,}362$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 7, wyczyszczenie środowiska, wektory $U$ i~$I$.
+
+  \item \textbf{Wybór metody -- \texttt{switch/case}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{a} -- aproksymacja, \textbf{i} -- interpolacja. W podjęciu decyzji użyj struktury \texttt{switch/case}. Gałąź chwytająca błędy musi wyświetlić komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Poproś użytkownika o podanie wartości zmiennej niezależnej $U_i$ (użytkownik podaje dowolną wartość $U_i \in \langle 0{,}5;\,3{,}1 \rangle$). Sprawdź poprawność wprowadzonych danych. Wyznacz wielomian \textbf{3.~stopnia} metodą najmniejszych kwadratów, oblicz jego wartość w~$U_i$, zapisz do odpowiedniej zmiennej i~wyświetl wynik w formacie do 4 miejsc po przecinku.
+
+  \item \textbf{Interpolacja (zagnieżdżony wybór).}
+    Jeżeli użytkownik wybrał interpolację, użyj zagnieżdżonej instrukcji warunkowej w celu dopytania szczegółów. Sprawdź poprawność wyboru. Daj wybór opcji:
+    \begin{itemize}[itemsep=1pt]
+      \item \textbf{1} -- interpolacja przedziałowa 'linear' w~$U_i = 1{,}2$ (użyj \texttt{interp1(..., 'linear')}); zapisz do zmiennej i~wyświetl wynik do 4 miejsc po przecinku.
+      \item \textbf{2} -- interpolacja metoda 'spline'; oblicz wartość w~$U_i = 2{,}3$, zapisz wynik i~wyświetl w formacie do 4 miejsc po przecinku.
+      \item \textbf{błąd} -- wyświetl komunikat: Błędne dane wejściowe.
+    \end{itemize}
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor $U_p \in \langle 0{,}5;\,3{,}1 \rangle$ (150 punktów). Oblicz na nim wartości wyznaczonej krzywej. W przypadku interpolacji rysowana jest krzywa dla ostatecznie wybranej metody. Narysuj ją linią kropkowaną czarną, a punkty pomiarowe oznacz jako kwadraty ('s'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i odpowiednio ułożoną legendę (w prawym dolnym rogu ('southeast')). Siatka jest obowiązkowa.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 8 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dane pomiarowe reprezentują kąt nachylenia $\alpha$ oraz siła $F$.
+Dane są generowane z funkcji $F = 2\sin(1{,}5\alpha)e^{-0{,}2\alpha}$ w~7 rozmieszczonych punktach węzłowych:
+
+\begin{center}
+\begin{tabular}{c|ccccccc}
+  \toprule
+  $\alpha$ [$^\circ$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ & $3{,}5$ \\
+  \midrule
+  $F$ [$\text{N}$] & $1{,}234$ & $1{,}600$ & $1{,}153$ & $-0{,}011$ & $-0{,}693$ & $-1{,}074$ & $-0{,}853$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\textit{Uwaga:} Wartości w tabeli są przykładowe – skrypt ma generować $F$ ze wzoru, nie używać gotowych liczb (pamiętaj o operatorze mnożenia tablicowego). Wartości w tabeli mogą się minimalnie różnić od dokładnych wyników funkcji.
+Wygeneruj wektory $\alpha$ i~$F$ bezpośrednio w~skrypcie ze wzoru $F = 2\sin(1{,}5\alpha)e^{-0{,}2\alpha}$.
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 8, wyczyszczenie środowiska, wektory $\alpha$ i~$F$.
+
+  \item \textbf{Wybór metody -- \texttt{if/else}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{A} -- aproksymacja wielomianem 4.~stopnia, \textbf{B} -- interpolacja 'linear'. Wariant błędny musi po prostu wyświetlać komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Wyznacz wielomian \textbf{4.~stopnia} metodą najmniejszych kwadratów. Oblicz jego wartość w~$\alpha_i = 1{,}30$, zapisz wynik do zmiennej i~wyświetl (np. z dokładnością do 4 miejsc po przecinku).
+
+  \item \textbf{Interpolacja.}
+    Wyznacz wartość interpolowaną w~$\alpha_i = 0{,}80$ metodą 'linear'. Zapisz i wyświetl wynik w odpowiednim formacie (np. 4 miejsca po przecinku) oraz \textbf{błąd bezwzględny} względem wartości dokładnej.
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor reprezentujący przedział pomiarowy (500 badanych punktów). Narysuj na jednym wykresie wykreowane elementy: wyznaczoną w poprzednich krokach krzywą (zależnie od wyboru -- tylko aproksymacyjną albo tylko interpolacyjną) ukazaną grubą linią magenta, funkcję dokładną narysowaną cienką linią czarną oraz zbiór punktów eksperymentalnych ujętych jako krzyżyki ('+'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i~legendę (poza obszarem osi (parametr Location z przyrostkiem 'outside')). Zastosuj gęstą siatkę (grid minor).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 9 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dany jest zbiór 5 punktów pomiarowych (reprezentujących głębokość $h$ oraz ciśnienie wody $p$):
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+  \toprule
+  $h$ [$m$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ \\
+  \midrule
+  $p$ [$\text{kPa}$] & $2{,}719$ & $3{,}637$ & $3{,}496$ & $3{,}595$ & $2{,}898$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 9, wyczyszczenie środowiska, wektory $h$ i~$p$.
+
+  \item \textbf{Wybór metody -- \texttt{switch/case}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{aproksymacja} -- aproksymacja, \textbf{interpolacja} -- interpolacja. W podjęciu decyzji użyj struktury \texttt{switch/case}. Gałąź chwytająca błędy musi wyświetlić komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Poproś użytkownika o podanie wartości zmiennej niezależnej $h_i$ (użytkownik podaje dowolną wartość $h_i \in \langle 0{,}5;\,2{,}5 \rangle$). Sprawdź poprawność wprowadzonych danych. Wyznacz wielomian \textbf{2.~stopnia} metodą najmniejszych kwadratów, oblicz jego wartość w~$h_i$, zapisz do odpowiedniej zmiennej i~wyświetl wynik w formacie do 4 miejsc po przecinku.
+
+  \item \textbf{Interpolacja (zagnieżdżony wybór).}
+    Jeżeli użytkownik wybrał interpolację, użyj zagnieżdżonej instrukcji warunkowej w celu dopytania szczegółów. Sprawdź poprawność wyboru. Daj wybór opcji:
+    \begin{itemize}[itemsep=1pt]
+      \item \textbf{1} -- interpolacja przedziałowa 'pchip' w~$h_i = 1{,}2$ (użyj \texttt{interp1(..., 'pchip')}); zapisz do zmiennej i~wyświetl wynik do 4 miejsc po przecinku.
+      \item \textbf{2} -- interpolacja metoda 'nearest'; oblicz wartość w~$h_i = 1{,}9$, zapisz wynik i~wyświetl w formacie do 4 miejsc po przecinku.
+      \item \textbf{błąd} -- wyświetl komunikat: Błędne dane wejściowe.
+    \end{itemize}
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor $h_p \in \langle 0{,}5;\,2{,}5 \rangle$ (250 punktów). Oblicz na nim wartości wyznaczonej krzywej. W przypadku interpolacji rysowana jest krzywa dla ostatecznie wybranej metody. Narysuj ją linią ciągłą niebieską, a punkty pomiarowe oznacz jako romby ('d'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i odpowiednio ułożoną legendę (w lewym dolnym rogu ('southwest')). Dodaj standardową siatkę.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 10 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dane pomiarowe reprezentują czas pomiaru $x$ oraz napięcie $y$.
+Dane są generowane z funkcji $y = \frac{10}{1 + x^2}$ w~6 rozmieszczonych punktach węzłowych:
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+  \toprule
+  $x$ [$s$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ \\
+  \midrule
+  $y$ [$V$] & $8{,}000$ & $4{,}525$ & $3{,}077$ & $1{,}848$ & $1{,}379$ & $0{,}943$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\textit{Uwaga:} Wartości w tabeli są przykładowe – skrypt ma generować $y$ ze wzoru, nie używać gotowych liczb (pamiętaj o operatorze mnożenia tablicowego). Wartości w tabeli mogą się minimalnie różnić od dokładnych wyników funkcji.
+Wygeneruj wektory $x$ i~$y$ bezpośrednio w~skrypcie ze wzoru $y = \frac{10}{1 + x^2}$.
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 10, wyczyszczenie środowiska, wektory $x$ i~$y$.
+
+  \item \textbf{Wybór metody -- \texttt{if/else}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako liczbę: \textbf{1} -- aproksymacja wielomianem 3.~stopnia, \textbf{2} -- interpolacja 'pchip'. Wariant błędny musi po prostu wyświetlać komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Wyznacz wielomian \textbf{3.~stopnia} metodą najmniejszych kwadratów. Oblicz jego wartość w~$x_i = 1{,}30$, zapisz wynik do zmiennej i~wyświetl (np. z dokładnością do 4 miejsc po przecinku).
+
+  \item \textbf{Interpolacja.}
+    Wyznacz wartość interpolowaną w~$x_i = 0{,}80$ metodą 'pchip'. Zapisz i wyświetl wynik w odpowiednim formacie (np. 4 miejsca po przecinku) oraz \textbf{błąd bezwzględny} względem wartości dokładnej.
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor reprezentujący przedział pomiarowy (200 badanych punktów). Narysuj na jednym wykresie wykreowane elementy: wyznaczoną w poprzednich krokach krzywą (zależnie od wyboru -- tylko aproksymacyjną albo tylko interpolacyjną) ukazaną linią ciągłą w kolorze czerwonym, funkcję dokładną narysowaną linią ciągłą czarną oraz zbiór punktów eksperymentalnych ujętych jako kółka ('o'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i~legendę (w lewym górnym rogu ('northwest')). Włącz podstawową siatkę (grid on).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 11 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dany jest zbiór 7 punktów pomiarowych (reprezentujących czas trwania $t$ oraz temperatura $T$):
+
+\begin{center}
+\begin{tabular}{c|ccccccc}
+  \toprule
+  $t$ [$h$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ & $3{,}5$ \\
+  \midrule
+  $T$ [$^\circ\text{C}$] & $2{,}719$ & $3{,}637$ & $3{,}496$ & $3{,}595$ & $2{,}898$ & $2{,}362$ & $1{,}474$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 11, wyczyszczenie środowiska, wektory $t$ i~$T$.
+
+  \item \textbf{Wybór metody -- \texttt{switch/case}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako liczbę: \textbf{10} -- aproksymacja, \textbf{20} -- interpolacja. W podjęciu decyzji użyj struktury \texttt{switch/case}. Gałąź chwytająca błędy musi wyświetlić komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Poproś użytkownika o podanie wartości zmiennej niezależnej $t_i$ (użytkownik podaje dowolną wartość $t_i \in \langle 0{,}5;\,3{,}5 \rangle$). Sprawdź poprawność wprowadzonych danych. Wyznacz wielomian \textbf{4.~stopnia} metodą najmniejszych kwadratów, oblicz jego wartość w~$t_i$, zapisz do odpowiedniej zmiennej i~wyświetl wynik w formacie do 4 miejsc po przecinku.
+
+  \item \textbf{Interpolacja (zagnieżdżony wybór).}
+    Jeżeli użytkownik wybrał interpolację, użyj zagnieżdżonej instrukcji warunkowej w celu dopytania szczegółów. Sprawdź poprawność wyboru. Daj wybór opcji:
+    \begin{itemize}[itemsep=1pt]
+      \item \textbf{a} -- interpolacja przedziałowa 'linear' w~$t_i = 1{,}2$ (użyj \texttt{interp1(..., 'linear')}); zapisz do zmiennej i~wyświetl wynik do 4 miejsc po przecinku.
+      \item \textbf{b} -- interpolacja metoda 'spline'; oblicz wartość w~$t_i = 2{,}9$, zapisz wynik i~wyświetl w formacie do 4 miejsc po przecinku.
+      \item \textbf{błąd} -- wyświetl komunikat: Błędne dane wejściowe.
+    \end{itemize}
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor $t_p \in \langle 0{,}5;\,3{,}5 \rangle$ (300 punktów). Oblicz na nim wartości wyznaczonej krzywej. W przypadku interpolacji rysowana jest krzywa dla ostatecznie wybranej metody. Narysuj ją linią przerywaną w kolorze niebieskim, a punkty pomiarowe oznacz jako gwiazdki ('*'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i odpowiednio ułożoną legendę (w najlepszym dopasowanym miejscu ('best')). Wykres bez siatki (grid off).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 12 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dane pomiarowe reprezentują odległość $s$ oraz prędkość $v$.
+Dane są generowane z funkcji $v = s^2 e^{-0{,}5s}$ w~5 rozmieszczonych punktach węzłowych:
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+  \toprule
+  $s$ [$m$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ \\
+  \midrule
+  $v$ [$\text{m/s}$] & $0{,}195$ & $0{,}698$ & $1{,}063$ & $1{,}543$ & $1{,}791$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\textit{Uwaga:} Wartości w tabeli są przykładowe – skrypt ma generować $v$ ze wzoru, nie używać gotowych liczb (pamiętaj o operatorze mnożenia tablicowego). Wartości w tabeli mogą się minimalnie różnić od dokładnych wyników funkcji.
+Wygeneruj wektory $s$ i~$v$ bezpośrednio w~skrypcie ze wzoru $v = s^2 e^{-0{,}5s}$.
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 12, wyczyszczenie środowiska, wektory $s$ i~$v$.
+
+  \item \textbf{Wybór metody -- \texttt{if/else}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{a} -- aproksymacja wielomianem 2.~stopnia, \textbf{i} -- interpolacja 'linear'. Wariant błędny musi po prostu wyświetlać komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Wyznacz wielomian \textbf{2.~stopnia} metodą najmniejszych kwadratów. Oblicz jego wartość w~$s_i = 1{,}30$, zapisz wynik do zmiennej i~wyświetl (np. z dokładnością do 4 miejsc po przecinku).
+
+  \item \textbf{Interpolacja.}
+    Wyznacz wartość interpolowaną w~$s_i = 0{,}80$ metodą 'linear'. Zapisz i wyświetl wynik w odpowiednim formacie (np. 4 miejsca po przecinku) oraz \textbf{błąd bezwzględny} względem wartości dokładnej.
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor reprezentujący przedział pomiarowy (150 badanych punktów). Narysuj na jednym wykresie wykreowane elementy: wyznaczoną w poprzednich krokach krzywą (zależnie od wyboru -- tylko aproksymacyjną albo tylko interpolacyjną) ukazaną linią kropkowaną czarną, funkcję dokładną narysowaną grubą linią zieloną oraz zbiór punktów eksperymentalnych ujętych jako kwadraty ('s'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i~legendę (w prawym dolnym rogu ('southeast')). Siatka jest obowiązkowa.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 13 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dany jest zbiór 6 punktów pomiarowych (reprezentujących ciśnienie $p$ oraz objętość $V$):
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+  \toprule
+  $p$ [$\text{hPa}$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ \\
+  \midrule
+  $V$ [$\text{dm}^3$] & $2{,}719$ & $3{,}637$ & $3{,}496$ & $3{,}595$ & $2{,}898$ & $2{,}362$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 13, wyczyszczenie środowiska, wektory $p$ i~$V$.
+
+  \item \textbf{Wybór metody -- \texttt{switch/case}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{A} -- aproksymacja, \textbf{B} -- interpolacja. W podjęciu decyzji użyj struktury \texttt{switch/case}. Gałąź chwytająca błędy musi wyświetlić komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Poproś użytkownika o podanie wartości zmiennej niezależnej $p_i$ (użytkownik podaje dowolną wartość $p_i \in \langle 0{,}5;\,3{,}1 \rangle$). Sprawdź poprawność wprowadzonych danych. Wyznacz wielomian \textbf{3.~stopnia} metodą najmniejszych kwadratów, oblicz jego wartość w~$p_i$, zapisz do odpowiedniej zmiennej i~wyświetl wynik w formacie do 4 miejsc po przecinku.
+
+  \item \textbf{Interpolacja (zagnieżdżony wybór).}
+    Jeżeli użytkownik wybrał interpolację, użyj zagnieżdżonej instrukcji warunkowej w celu dopytania szczegółów. Sprawdź poprawność wyboru. Daj wybór opcji:
+    \begin{itemize}[itemsep=1pt]
+      \item \textbf{1} -- interpolacja przedziałowa 'pchip' w~$p_i = 1{,}2$ (użyj \texttt{interp1(..., 'pchip')}); zapisz do zmiennej i~wyświetl wynik do 4 miejsc po przecinku.
+      \item \textbf{2} -- interpolacja metoda 'nearest'; oblicz wartość w~$p_i = 2{,}3$, zapisz wynik i~wyświetl w formacie do 4 miejsc po przecinku.
+      \item \textbf{błąd} -- wyświetl komunikat: Błędne dane wejściowe.
+    \end{itemize}
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor $p_p \in \langle 0{,}5;\,3{,}1 \rangle$ (500 punktów). Oblicz na nim wartości wyznaczonej krzywej. W przypadku interpolacji rysowana jest krzywa dla ostatecznie wybranej metody. Narysuj ją grubą linią magenta, a punkty pomiarowe oznacz jako krzyżyki ('+'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i odpowiednio ułożoną legendę (poza obszarem osi (parametr Location z przyrostkiem 'outside')). Zastosuj gęstą siatkę (grid minor).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 14 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dane pomiarowe reprezentują temperatura $T$ oraz opór $R$.
+Dane są generowane z funkcji $R = e^{-0{,}4T}\cos(2T)$ w~7 rozmieszczonych punktach węzłowych:
+
+\begin{center}
+\begin{tabular}{c|ccccccc}
+  \toprule
+  $T$ [$\text{K}$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ & $3{,}5$ \\
+  \midrule
+  $R$ [$\Omega$] & $0{,}442$ & $-0{,}379$ & $-0{,}543$ & $-0{,}212$ & $0{,}104$ & $0{,}288$ & $0{,}186$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\textit{Uwaga:} Wartości w tabeli są przykładowe – skrypt ma generować $R$ ze wzoru, nie używać gotowych liczb (pamiętaj o operatorze mnożenia tablicowego). Wartości w tabeli mogą się minimalnie różnić od dokładnych wyników funkcji.
+Wygeneruj wektory $T$ i~$R$ bezpośrednio w~skrypcie ze wzoru $R = e^{-0{,}4T}\cos(2T)$.
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 14, wyczyszczenie środowiska, wektory $T$ i~$R$.
+
+  \item \textbf{Wybór metody -- \texttt{if/else}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{aproksymacja} -- aproksymacja wielomianem 4.~stopnia, \textbf{interpolacja} -- interpolacja 'pchip'. Wariant błędny musi po prostu wyświetlać komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Wyznacz wielomian \textbf{4.~stopnia} metodą najmniejszych kwadratów. Oblicz jego wartość w~$T_i = 1{,}30$, zapisz wynik do zmiennej i~wyświetl (np. z dokładnością do 4 miejsc po przecinku).
+
+  \item \textbf{Interpolacja.}
+    Wyznacz wartość interpolowaną w~$T_i = 0{,}80$ metodą 'pchip'. Zapisz i wyświetl wynik w odpowiednim formacie (np. 4 miejsca po przecinku) oraz \textbf{błąd bezwzględny} względem wartości dokładnej.
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor reprezentujący przedział pomiarowy (250 badanych punktów). Narysuj na jednym wykresie wykreowane elementy: wyznaczoną w poprzednich krokach krzywą (zależnie od wyboru -- tylko aproksymacyjną albo tylko interpolacyjną) ukazaną linią ciągłą niebieską, funkcję dokładną narysowaną linią ciągłą czerwoną oraz zbiór punktów eksperymentalnych ujętych jako romby ('d'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i~legendę (w lewym dolnym rogu ('southwest')). Dodaj standardową siatkę.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 15 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dany jest zbiór 5 punktów pomiarowych (reprezentujących stężenie $c$ oraz lepkość $\eta$):
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+  \toprule
+  $c$ [$\%$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ \\
+  \midrule
+  $\eta$ [$\text{mPa}\cdot\text{s}$] & $2{,}719$ & $3{,}637$ & $3{,}496$ & $3{,}595$ & $2{,}898$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 15, wyczyszczenie środowiska, wektory $c$ i~$\eta$.
+
+  \item \textbf{Wybór metody -- \texttt{switch/case}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako liczbę: \textbf{1} -- aproksymacja, \textbf{2} -- interpolacja. W podjęciu decyzji użyj struktury \texttt{switch/case}. Gałąź chwytająca błędy musi wyświetlić komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Poproś użytkownika o podanie wartości zmiennej niezależnej $c_i$ (użytkownik podaje dowolną wartość $c_i \in \langle 0{,}5;\,2{,}5 \rangle$). Sprawdź poprawność wprowadzonych danych. Wyznacz wielomian \textbf{2.~stopnia} metodą najmniejszych kwadratów, oblicz jego wartość w~$c_i$, zapisz do odpowiedniej zmiennej i~wyświetl wynik w formacie do 4 miejsc po przecinku.
+
+  \item \textbf{Interpolacja (zagnieżdżony wybór).}
+    Jeżeli użytkownik wybrał interpolację, użyj zagnieżdżonej instrukcji warunkowej w celu dopytania szczegółów. Sprawdź poprawność wyboru. Daj wybór opcji:
+    \begin{itemize}[itemsep=1pt]
+      \item \textbf{a} -- interpolacja przedziałowa 'linear' w~$c_i = 1{,}2$ (użyj \texttt{interp1(..., 'linear')}); zapisz do zmiennej i~wyświetl wynik do 4 miejsc po przecinku.
+      \item \textbf{b} -- interpolacja metoda 'spline'; oblicz wartość w~$c_i = 1{,}9$, zapisz wynik i~wyświetl w formacie do 4 miejsc po przecinku.
+      \item \textbf{błąd} -- wyświetl komunikat: Błędne dane wejściowe.
+    \end{itemize}
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor $c_p \in \langle 0{,}5;\,2{,}5 \rangle$ (200 punktów). Oblicz na nim wartości wyznaczonej krzywej. W przypadku interpolacji rysowana jest krzywa dla ostatecznie wybranej metody. Narysuj ją linią ciągłą w kolorze czerwonym, a punkty pomiarowe oznacz jako kółka ('o'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i odpowiednio ułożoną legendę (w lewym górnym rogu ('northwest')). Włącz podstawową siatkę (grid on).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 16 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dane pomiarowe reprezentują czas eksperymentu $t$ oraz masa $m$.
+Dane są generowane z funkcji $m = 5\cos(t)e^{-0{,}1t}$ w~6 rozmieszczonych punktach węzłowych:
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+  \toprule
+  $t$ [$\text{min}$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ \\
+  \midrule
+  $m$ [$g$] & $4{,}174$ & $2{,}032$ & $0{,}304$ & $-2{,}046$ & $-3{,}120$ & $-3{,}664$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\textit{Uwaga:} Wartości w tabeli są przykładowe – skrypt ma generować $m$ ze wzoru, nie używać gotowych liczb (pamiętaj o operatorze mnożenia tablicowego). Wartości w tabeli mogą się minimalnie różnić od dokładnych wyników funkcji.
+Wygeneruj wektory $t$ i~$m$ bezpośrednio w~skrypcie ze wzoru $m = 5\cos(t)e^{-0{,}1t}$.
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 16, wyczyszczenie środowiska, wektory $t$ i~$m$.
+
+  \item \textbf{Wybór metody -- \texttt{if/else}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako liczbę: \textbf{10} -- aproksymacja wielomianem 3.~stopnia, \textbf{20} -- interpolacja 'linear'. Wariant błędny musi po prostu wyświetlać komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Wyznacz wielomian \textbf{3.~stopnia} metodą najmniejszych kwadratów. Oblicz jego wartość w~$t_i = 1{,}30$, zapisz wynik do zmiennej i~wyświetl (np. z dokładnością do 4 miejsc po przecinku).
+
+  \item \textbf{Interpolacja.}
+    Wyznacz wartość interpolowaną w~$t_i = 0{,}80$ metodą 'linear'. Zapisz i wyświetl wynik w odpowiednim formacie (np. 4 miejsca po przecinku) oraz \textbf{błąd bezwzględny} względem wartości dokładnej.
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor reprezentujący przedział pomiarowy (300 badanych punktów). Narysuj na jednym wykresie wykreowane elementy: wyznaczoną w poprzednich krokach krzywą (zależnie od wyboru -- tylko aproksymacyjną albo tylko interpolacyjną) ukazaną linią przerywaną w kolorze niebieskim, funkcję dokładną narysowaną linią przerywaną szarą oraz zbiór punktów eksperymentalnych ujętych jako gwiazdki ('*'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i~legendę (w najlepszym dopasowanym miejscu ('best')). Wykres bez siatki (grid off).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 17 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dany jest zbiór 7 punktów pomiarowych (reprezentujących napięcie zasilania $U$ oraz natężenie $I$):
+
+\begin{center}
+\begin{tabular}{c|ccccccc}
+  \toprule
+  $U$ [$V$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ & $3{,}5$ \\
+  \midrule
+  $I$ [$\text{mA}$] & $2{,}719$ & $3{,}637$ & $3{,}496$ & $3{,}595$ & $2{,}898$ & $2{,}362$ & $1{,}474$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 17, wyczyszczenie środowiska, wektory $U$ i~$I$.
+
+  \item \textbf{Wybór metody -- \texttt{switch/case}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{a} -- aproksymacja, \textbf{i} -- interpolacja. W podjęciu decyzji użyj struktury \texttt{switch/case}. Gałąź chwytająca błędy musi wyświetlić komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Poproś użytkownika o podanie wartości zmiennej niezależnej $U_i$ (użytkownik podaje dowolną wartość $U_i \in \langle 0{,}5;\,3{,}5 \rangle$). Sprawdź poprawność wprowadzonych danych. Wyznacz wielomian \textbf{4.~stopnia} metodą najmniejszych kwadratów, oblicz jego wartość w~$U_i$, zapisz do odpowiedniej zmiennej i~wyświetl wynik w formacie do 4 miejsc po przecinku.
+
+  \item \textbf{Interpolacja (zagnieżdżony wybór).}
+    Jeżeli użytkownik wybrał interpolację, użyj zagnieżdżonej instrukcji warunkowej w celu dopytania szczegółów. Sprawdź poprawność wyboru. Daj wybór opcji:
+    \begin{itemize}[itemsep=1pt]
+      \item \textbf{1} -- interpolacja przedziałowa 'pchip' w~$U_i = 1{,}2$ (użyj \texttt{interp1(..., 'pchip')}); zapisz do zmiennej i~wyświetl wynik do 4 miejsc po przecinku.
+      \item \textbf{2} -- interpolacja metoda 'nearest'; oblicz wartość w~$U_i = 2{,}9$, zapisz wynik i~wyświetl w formacie do 4 miejsc po przecinku.
+      \item \textbf{błąd} -- wyświetl komunikat: Błędne dane wejściowe.
+    \end{itemize}
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor $U_p \in \langle 0{,}5;\,3{,}5 \rangle$ (150 punktów). Oblicz na nim wartości wyznaczonej krzywej. W przypadku interpolacji rysowana jest krzywa dla ostatecznie wybranej metody. Narysuj ją linią kropkowaną czarną, a punkty pomiarowe oznacz jako kwadraty ('s'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i odpowiednio ułożoną legendę (w prawym dolnym rogu ('southeast')). Siatka jest obowiązkowa.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 18 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dane pomiarowe reprezentują kąt nachylenia $\alpha$ oraz siła $F$.
+Dane są generowane z funkcji $F = 3\sqrt{\alpha}\ln(\alpha+1)$ w~5 rozmieszczonych punktach węzłowych:
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+  \toprule
+  $\alpha$ [$^\circ$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ \\
+  \midrule
+  $F$ [$\text{N}$] & $0{,}860$ & $2{,}334$ & $3{,}367$ & $4{,}919$ & $5{,}942$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\textit{Uwaga:} Wartości w tabeli są przykładowe – skrypt ma generować $F$ ze wzoru, nie używać gotowych liczb (pamiętaj o operatorze mnożenia tablicowego). Wartości w tabeli mogą się minimalnie różnić od dokładnych wyników funkcji.
+Wygeneruj wektory $\alpha$ i~$F$ bezpośrednio w~skrypcie ze wzoru $F = 3\sqrt{\alpha}\ln(\alpha+1)$.
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 18, wyczyszczenie środowiska, wektory $\alpha$ i~$F$.
+
+  \item \textbf{Wybór metody -- \texttt{if/else}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{A} -- aproksymacja wielomianem 2.~stopnia, \textbf{B} -- interpolacja 'pchip'. Wariant błędny musi po prostu wyświetlać komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Wyznacz wielomian \textbf{2.~stopnia} metodą najmniejszych kwadratów. Oblicz jego wartość w~$\alpha_i = 1{,}30$, zapisz wynik do zmiennej i~wyświetl (np. z dokładnością do 4 miejsc po przecinku).
+
+  \item \textbf{Interpolacja.}
+    Wyznacz wartość interpolowaną w~$\alpha_i = 0{,}80$ metodą 'pchip'. Zapisz i wyświetl wynik w odpowiednim formacie (np. 4 miejsca po przecinku) oraz \textbf{błąd bezwzględny} względem wartości dokładnej.
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor reprezentujący przedział pomiarowy (500 badanych punktów). Narysuj na jednym wykresie wykreowane elementy: wyznaczoną w poprzednich krokach krzywą (zależnie od wyboru -- tylko aproksymacyjną albo tylko interpolacyjną) ukazaną grubą linią magenta, funkcję dokładną narysowaną cienką linią czarną oraz zbiór punktów eksperymentalnych ujętych jako krzyżyki ('+'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i~legendę (poza obszarem osi (parametr Location z przyrostkiem 'outside')). Zastosuj gęstą siatkę (grid minor).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 19 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dany jest zbiór 6 punktów pomiarowych (reprezentujących głębokość $h$ oraz ciśnienie wody $p$):
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+  \toprule
+  $h$ [$m$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ \\
+  \midrule
+  $p$ [$\text{kPa}$] & $2{,}719$ & $3{,}637$ & $3{,}496$ & $3{,}595$ & $2{,}898$ & $2{,}362$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 19, wyczyszczenie środowiska, wektory $h$ i~$p$.
+
+  \item \textbf{Wybór metody -- \texttt{switch/case}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{aproksymacja} -- aproksymacja, \textbf{interpolacja} -- interpolacja. W podjęciu decyzji użyj struktury \texttt{switch/case}. Gałąź chwytająca błędy musi wyświetlić komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Poproś użytkownika o podanie wartości zmiennej niezależnej $h_i$ (użytkownik podaje dowolną wartość $h_i \in \langle 0{,}5;\,3{,}1 \rangle$). Sprawdź poprawność wprowadzonych danych. Wyznacz wielomian \textbf{3.~stopnia} metodą najmniejszych kwadratów, oblicz jego wartość w~$h_i$, zapisz do odpowiedniej zmiennej i~wyświetl wynik w formacie do 4 miejsc po przecinku.
+
+  \item \textbf{Interpolacja (zagnieżdżony wybór).}
+    Jeżeli użytkownik wybrał interpolację, użyj zagnieżdżonej instrukcji warunkowej w celu dopytania szczegółów. Sprawdź poprawność wyboru. Daj wybór opcji:
+    \begin{itemize}[itemsep=1pt]
+      \item \textbf{1} -- interpolacja przedziałowa 'linear' w~$h_i = 1{,}2$ (użyj \texttt{interp1(..., 'linear')}); zapisz do zmiennej i~wyświetl wynik do 4 miejsc po przecinku.
+      \item \textbf{2} -- interpolacja metoda 'spline'; oblicz wartość w~$h_i = 2{,}3$, zapisz wynik i~wyświetl w formacie do 4 miejsc po przecinku.
+      \item \textbf{błąd} -- wyświetl komunikat: Błędne dane wejściowe.
+    \end{itemize}
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor $h_p \in \langle 0{,}5;\,3{,}1 \rangle$ (250 punktów). Oblicz na nim wartości wyznaczonej krzywej. W przypadku interpolacji rysowana jest krzywa dla ostatecznie wybranej metody. Narysuj ją linią ciągłą niebieską, a punkty pomiarowe oznacz jako romby ('d'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i odpowiednio ułożoną legendę (w lewym dolnym rogu ('southwest')). Dodaj standardową siatkę.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 20 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dane pomiarowe reprezentują czas pomiaru $x$ oraz napięcie $y$.
+Dane są generowane z funkcji $y = 4\sin(x) + 2\cos(3x)$ w~7 rozmieszczonych punktach węzłowych:
+
+\begin{center}
+\begin{tabular}{c|ccccccc}
+  \toprule
+  $x$ [$s$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ & $3{,}5$ \\
+  \midrule
+  $y$ [$V$] & $2{,}059$ & $1{,}590$ & $3{,}568$ & $5{,}453$ & $3{,}087$ & $-1{,}818$ & $-2{,}354$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\textit{Uwaga:} Wartości w tabeli są przykładowe – skrypt ma generować $y$ ze wzoru, nie używać gotowych liczb (pamiętaj o operatorze mnożenia tablicowego). Wartości w tabeli mogą się minimalnie różnić od dokładnych wyników funkcji.
+Wygeneruj wektory $x$ i~$y$ bezpośrednio w~skrypcie ze wzoru $y = 4\sin(x) + 2\cos(3x)$.
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 20, wyczyszczenie środowiska, wektory $x$ i~$y$.
+
+  \item \textbf{Wybór metody -- \texttt{if/else}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako liczbę: \textbf{1} -- aproksymacja wielomianem 4.~stopnia, \textbf{2} -- interpolacja 'linear'. Wariant błędny musi po prostu wyświetlać komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Wyznacz wielomian \textbf{4.~stopnia} metodą najmniejszych kwadratów. Oblicz jego wartość w~$x_i = 1{,}30$, zapisz wynik do zmiennej i~wyświetl (np. z dokładnością do 4 miejsc po przecinku).
+
+  \item \textbf{Interpolacja.}
+    Wyznacz wartość interpolowaną w~$x_i = 0{,}80$ metodą 'linear'. Zapisz i wyświetl wynik w odpowiednim formacie (np. 4 miejsca po przecinku) oraz \textbf{błąd bezwzględny} względem wartości dokładnej.
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor reprezentujący przedział pomiarowy (200 badanych punktów). Narysuj na jednym wykresie wykreowane elementy: wyznaczoną w poprzednich krokach krzywą (zależnie od wyboru -- tylko aproksymacyjną albo tylko interpolacyjną) ukazaną linią ciągłą w kolorze czerwonym, funkcję dokładną narysowaną linią ciągłą czarną oraz zbiór punktów eksperymentalnych ujętych jako kółka ('o'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i~legendę (w lewym górnym rogu ('northwest')). Włącz podstawową siatkę (grid on).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 21 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dany jest zbiór 5 punktów pomiarowych (reprezentujących czas trwania $t$ oraz temperatura $T$):
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+  \toprule
+  $t$ [$h$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ \\
+  \midrule
+  $T$ [$^\circ\text{C}$] & $2{,}719$ & $3{,}637$ & $3{,}496$ & $3{,}595$ & $2{,}898$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 21, wyczyszczenie środowiska, wektory $t$ i~$T$.
+
+  \item \textbf{Wybór metody -- \texttt{switch/case}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako liczbę: \textbf{10} -- aproksymacja, \textbf{20} -- interpolacja. W podjęciu decyzji użyj struktury \texttt{switch/case}. Gałąź chwytająca błędy musi wyświetlić komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Poproś użytkownika o podanie wartości zmiennej niezależnej $t_i$ (użytkownik podaje dowolną wartość $t_i \in \langle 0{,}5;\,2{,}5 \rangle$). Sprawdź poprawność wprowadzonych danych. Wyznacz wielomian \textbf{2.~stopnia} metodą najmniejszych kwadratów, oblicz jego wartość w~$t_i$, zapisz do odpowiedniej zmiennej i~wyświetl wynik w formacie do 4 miejsc po przecinku.
+
+  \item \textbf{Interpolacja (zagnieżdżony wybór).}
+    Jeżeli użytkownik wybrał interpolację, użyj zagnieżdżonej instrukcji warunkowej w celu dopytania szczegółów. Sprawdź poprawność wyboru. Daj wybór opcji:
+    \begin{itemize}[itemsep=1pt]
+      \item \textbf{a} -- interpolacja przedziałowa 'pchip' w~$t_i = 1{,}2$ (użyj \texttt{interp1(..., 'pchip')}); zapisz do zmiennej i~wyświetl wynik do 4 miejsc po przecinku.
+      \item \textbf{b} -- interpolacja metoda 'nearest'; oblicz wartość w~$t_i = 1{,}9$, zapisz wynik i~wyświetl w formacie do 4 miejsc po przecinku.
+      \item \textbf{błąd} -- wyświetl komunikat: Błędne dane wejściowe.
+    \end{itemize}
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor $t_p \in \langle 0{,}5;\,2{,}5 \rangle$ (300 punktów). Oblicz na nim wartości wyznaczonej krzywej. W przypadku interpolacji rysowana jest krzywa dla ostatecznie wybranej metody. Narysuj ją linią przerywaną w kolorze niebieskim, a punkty pomiarowe oznacz jako gwiazdki ('*'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i odpowiednio ułożoną legendę (w najlepszym dopasowanym miejscu ('best')). Wykres bez siatki (grid off).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 22 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dane pomiarowe reprezentują odległość $s$ oraz prędkość $v$.
+Dane są generowane z funkcji $v = 2\sin(1{,}5s)e^{-0{,}2s}$ w~6 rozmieszczonych punktach węzłowych:
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+  \toprule
+  $s$ [$m$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ \\
+  \midrule
+  $v$ [$\text{m/s}$] & $1{,}234$ & $1{,}600$ & $1{,}153$ & $-0{,}011$ & $-0{,}693$ & $-1{,}074$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\textit{Uwaga:} Wartości w tabeli są przykładowe – skrypt ma generować $v$ ze wzoru, nie używać gotowych liczb (pamiętaj o operatorze mnożenia tablicowego). Wartości w tabeli mogą się minimalnie różnić od dokładnych wyników funkcji.
+Wygeneruj wektory $s$ i~$v$ bezpośrednio w~skrypcie ze wzoru $v = 2\sin(1{,}5s)e^{-0{,}2s}$.
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 22, wyczyszczenie środowiska, wektory $s$ i~$v$.
+
+  \item \textbf{Wybór metody -- \texttt{if/else}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{a} -- aproksymacja wielomianem 3.~stopnia, \textbf{i} -- interpolacja 'pchip'. Wariant błędny musi po prostu wyświetlać komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Wyznacz wielomian \textbf{3.~stopnia} metodą najmniejszych kwadratów. Oblicz jego wartość w~$s_i = 1{,}30$, zapisz wynik do zmiennej i~wyświetl (np. z dokładnością do 4 miejsc po przecinku).
+
+  \item \textbf{Interpolacja.}
+    Wyznacz wartość interpolowaną w~$s_i = 0{,}80$ metodą 'pchip'. Zapisz i wyświetl wynik w odpowiednim formacie (np. 4 miejsca po przecinku) oraz \textbf{błąd bezwzględny} względem wartości dokładnej.
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor reprezentujący przedział pomiarowy (150 badanych punktów). Narysuj na jednym wykresie wykreowane elementy: wyznaczoną w poprzednich krokach krzywą (zależnie od wyboru -- tylko aproksymacyjną albo tylko interpolacyjną) ukazaną linią kropkowaną czarną, funkcję dokładną narysowaną grubą linią zieloną oraz zbiór punktów eksperymentalnych ujętych jako kwadraty ('s'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i~legendę (w prawym dolnym rogu ('southeast')). Siatka jest obowiązkowa.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 23 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dany jest zbiór 7 punktów pomiarowych (reprezentujących ciśnienie $p$ oraz objętość $V$):
+
+\begin{center}
+\begin{tabular}{c|ccccccc}
+  \toprule
+  $p$ [$\text{hPa}$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ & $3{,}5$ \\
+  \midrule
+  $V$ [$\text{dm}^3$] & $2{,}719$ & $3{,}637$ & $3{,}496$ & $3{,}595$ & $2{,}898$ & $2{,}362$ & $1{,}474$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 23, wyczyszczenie środowiska, wektory $p$ i~$V$.
+
+  \item \textbf{Wybór metody -- \texttt{switch/case}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{A} -- aproksymacja, \textbf{B} -- interpolacja. W podjęciu decyzji użyj struktury \texttt{switch/case}. Gałąź chwytająca błędy musi wyświetlić komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Poproś użytkownika o podanie wartości zmiennej niezależnej $p_i$ (użytkownik podaje dowolną wartość $p_i \in \langle 0{,}5;\,3{,}5 \rangle$). Sprawdź poprawność wprowadzonych danych. Wyznacz wielomian \textbf{4.~stopnia} metodą najmniejszych kwadratów, oblicz jego wartość w~$p_i$, zapisz do odpowiedniej zmiennej i~wyświetl wynik w formacie do 4 miejsc po przecinku.
+
+  \item \textbf{Interpolacja (zagnieżdżony wybór).}
+    Jeżeli użytkownik wybrał interpolację, użyj zagnieżdżonej instrukcji warunkowej w celu dopytania szczegółów. Sprawdź poprawność wyboru. Daj wybór opcji:
+    \begin{itemize}[itemsep=1pt]
+      \item \textbf{1} -- interpolacja przedziałowa 'linear' w~$p_i = 1{,}2$ (użyj \texttt{interp1(..., 'linear')}); zapisz do zmiennej i~wyświetl wynik do 4 miejsc po przecinku.
+      \item \textbf{2} -- interpolacja metoda 'spline'; oblicz wartość w~$p_i = 2{,}9$, zapisz wynik i~wyświetl w formacie do 4 miejsc po przecinku.
+      \item \textbf{błąd} -- wyświetl komunikat: Błędne dane wejściowe.
+    \end{itemize}
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor $p_p \in \langle 0{,}5;\,3{,}5 \rangle$ (500 punktów). Oblicz na nim wartości wyznaczonej krzywej. W przypadku interpolacji rysowana jest krzywa dla ostatecznie wybranej metody. Narysuj ją grubą linią magenta, a punkty pomiarowe oznacz jako krzyżyki ('+'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i odpowiednio ułożoną legendę (poza obszarem osi (parametr Location z przyrostkiem 'outside')). Zastosuj gęstą siatkę (grid minor).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 24 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dane pomiarowe reprezentują temperatura $T$ oraz opór $R$.
+Dane są generowane z funkcji $R = \frac{10}{1 + T^2}$ w~5 rozmieszczonych punktach węzłowych:
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+  \toprule
+  $T$ [$\text{K}$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ \\
+  \midrule
+  $R$ [$\Omega$] & $8{,}000$ & $4{,}525$ & $3{,}077$ & $1{,}848$ & $1{,}379$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\medskip
+\textit{Uwaga:} Wartości w tabeli są przykładowe – skrypt ma generować $R$ ze wzoru, nie używać gotowych liczb (pamiętaj o operatorze mnożenia tablicowego). Wartości w tabeli mogą się minimalnie różnić od dokładnych wyników funkcji.
+Wygeneruj wektory $T$ i~$R$ bezpośrednio w~skrypcie ze wzoru $R = \frac{10}{1 + T^2}$.
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 24, wyczyszczenie środowiska, wektory $T$ i~$R$.
+
+  \item \textbf{Wybór metody -- \texttt{if/else}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako tekst: \textbf{aproksymacja} -- aproksymacja wielomianem 2.~stopnia, \textbf{interpolacja} -- interpolacja 'linear'. Wariant błędny musi po prostu wyświetlać komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Wyznacz wielomian \textbf{2.~stopnia} metodą najmniejszych kwadratów. Oblicz jego wartość w~$T_i = 1{,}30$, zapisz wynik do zmiennej i~wyświetl (np. z dokładnością do 4 miejsc po przecinku).
+
+  \item \textbf{Interpolacja.}
+    Wyznacz wartość interpolowaną w~$T_i = 0{,}80$ metodą 'linear'. Zapisz i wyświetl wynik w odpowiednim formacie (np. 4 miejsca po przecinku) oraz \textbf{błąd bezwzględny} względem wartości dokładnej.
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor reprezentujący przedział pomiarowy (250 badanych punktów). Narysuj na jednym wykresie wykreowane elementy: wyznaczoną w poprzednich krokach krzywą (zależnie od wyboru -- tylko aproksymacyjną albo tylko interpolacyjną) ukazaną linią ciągłą niebieską, funkcję dokładną narysowaną linią ciągłą czerwoną oraz zbiór punktów eksperymentalnych ujętych jako romby ('d'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i~legendę (w lewym dolnym rogu ('southwest')). Dodaj standardową siatkę.
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{if/else}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\clearpage
+\begin{center}
+  {\large\bfseries Zestaw nr 25 \quad -- \quad Interpolacja i aproksymacja}
+\end{center}
+\hrulefill
+\vspace{0.4cm}
+
+\subsection*{Dane}
+
+Dany jest zbiór 6 punktów pomiarowych (reprezentujących stężenie $c$ oraz lepkość $\eta$):
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+  \toprule
+  $c$ [$\%$] & $0{,}5$ & $1{,}1$ & $1{,}5$ & $2{,}1$ & $2{,}5$ & $3{,}1$ \\
+  \midrule
+  $\eta$ [$\text{mPa}\cdot\text{s}$] & $2{,}719$ & $3{,}637$ & $3{,}496$ & $3{,}595$ & $2{,}898$ & $2{,}362$ \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Polecenia}
+
+\begin{enumerate}[leftmargin=*, label=\textbf{\arabic*.}, itemsep=2pt]
+
+  \item \textbf{Inicjalizacja.}
+    Nazwa pliku: \texttt{nazwisko\_imie\_cw\_nr}. W komentarzu wewnątrz pliku: zestaw nr: 25, wyczyszczenie środowiska, wektory $c$ i~$\eta$.
+
+  \item \textbf{Wybór metody -- \texttt{switch/case}.}
+    Wyświetl dostępne opcje i~pobierz wybór jako liczbę: \textbf{1} -- aproksymacja, \textbf{2} -- interpolacja. W podjęciu decyzji użyj struktury \texttt{switch/case}. Gałąź chwytająca błędy musi wyświetlić komunikat: Błędne dane wejściowe.
+
+  \item \textbf{Aproksymacja.}
+    Poproś użytkownika o podanie wartości zmiennej niezależnej $c_i$ (użytkownik podaje dowolną wartość $c_i \in \langle 0{,}5;\,3{,}1 \rangle$). Sprawdź poprawność wprowadzonych danych. Wyznacz wielomian \textbf{3.~stopnia} metodą najmniejszych kwadratów, oblicz jego wartość w~$c_i$, zapisz do odpowiedniej zmiennej i~wyświetl wynik w formacie do 4 miejsc po przecinku.
+
+  \item \textbf{Interpolacja (zagnieżdżony wybór).}
+    Jeżeli użytkownik wybrał interpolację, użyj zagnieżdżonej instrukcji warunkowej w celu dopytania szczegółów. Sprawdź poprawność wyboru. Daj wybór opcji:
+    \begin{itemize}[itemsep=1pt]
+      \item \textbf{a} -- interpolacja przedziałowa 'pchip' w~$c_i = 1{,}2$ (użyj \texttt{interp1(..., 'pchip')}); zapisz do zmiennej i~wyświetl wynik do 4 miejsc po przecinku.
+      \item \textbf{b} -- interpolacja metoda 'nearest'; oblicz wartość w~$c_i = 2{,}3$, zapisz wynik i~wyświetl w formacie do 4 miejsc po przecinku.
+      \item \textbf{błąd} -- wyświetl komunikat: Błędne dane wejściowe.
+    \end{itemize}
+
+  \item \textbf{Wykres.}
+    Dla wybranej przez użytkownika metody utwórz gęsty wektor $c_p \in \langle 0{,}5;\,3{,}1 \rangle$ (200 punktów). Oblicz na nim wartości wyznaczonej krzywej. W przypadku interpolacji rysowana jest krzywa dla ostatecznie wybranej metody. Narysuj ją linią ciągłą w kolorze czerwonym, a punkty pomiarowe oznacz jako kółka ('o'). Opcjonalnie dodaj merytoryczne podpisy osi, tytuł i odpowiednio ułożoną legendę (w lewym górnym rogu ('northwest')). Włącz podstawową siatkę (grid on).
+
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{ramka}
+\textbf{Wymagane konstrukcje:}
+\texttt{switch/case}, \texttt{disp}, \texttt{input}, \texttt{polyfit}, \texttt{polyval}, \texttt{interp1}, \texttt{plot}.
+\end{ramka}
+
+\end{document}

@@ -1,0 +1,279 @@
+\documentclass[11pt,aspectratio=169,table]{beamer}
+\usetheme{Boadilla}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{tcolorbox}
+
+\lstdefinestyle{matlabstyle}{
+	language=Matlab,
+	backgroundcolor=\color{backcolour},
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{codeblue}\bfseries,
+	basicstyle=\ttfamily\tiny, % Zmniejszona czcionka kodu na slajdy
+	breaklines=true,
+	frame=single,
+}
+
+\lstset{
+    style=matlabstyle,
+	columns=fullflexible,
+	keepspaces=true,
+	showstringspaces=false,
+	upquote=true,
+	literate={°}{$^\circ$}1
+}
+
+\definecolor{codegreen}{rgb}{0,0.55,0}
+\definecolor{codeblue}{rgb}{0,0,0.85}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.93}
+
+\title{Interpolacja i Aproksymacja w MATLAB}
+\author{}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}{Zadanie wprowadzające}
+	\textbf{Zadanie:} Samochód jedzie po prostej drodze. W chwili $t_1 = 2$ sekundy 
+	ma prędkość $v_1 = 10$ m/s, a w chwili $t_2 = 6$ sekundy ma prędkość $v_2 = 30$ m/s.
+	
+	\vspace{0.5cm}
+	\begin{itemize}
+		\item Zakładając, że przyspieszenie jest \textbf{stałe} między tymi pomiarami, 
+		oblicz prędkość samochodu w chwili $t = 4$ sekundy.
+		\vspace{0.3cm}
+	\end{itemize}
+	
+	\vspace{0.5cm}
+	\begin{tcolorbox}[colback=yellow!10!white,colframe=yellow!70!black,title=Wskazówka]
+	Przy stałym przyspieszeniu prędkość zmienia się liniowo w czasie:
+	\[
+	v(t) = v_1 + a \cdot (t - t_1), \quad \text{gdzie} \quad a = \frac{v_2 - v_1}{t_2 - t_1}
+	\]
+	\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Część 1: Czym jest interpolacja?}
+	\textbf{Idea:} Mając kilka znanych punktów (węzłów), chcemy obliczyć wartości między nimi. \\
+	\alert{Krzywa interpolacyjna zawsze przechodzi przez wszystkie zadane punkty.}
+	
+	\vspace{0.5cm}
+	W MATLABie:
+	\begin{block}{Funkcja do interpolacji}
+		\centering \texttt{yi = interp1(x, y, xi, 'metoda')}
+	\end{block}
+	
+	Gdzie:
+	\begin{itemize}
+		\item \texttt{x, y} – współrzędne znanych punktów
+		\item \texttt{xi} – punkty, w których chcemy obliczyć wartości
+		\item \texttt{'metoda'} – wybór metody interpolacji
+	\end{itemize}
+	
+	\vspace{0.5cm}
+	\textbf{Codzienny przykład:} Temperatura o 8:00 = 15°C, o 12:00 = 23°C. 
+	Jaka była o 10:00? To jest właśnie interpolacja.
+\end{frame}
+
+\begin{frame}{Metoda: \texttt{linear} (liniowa)}
+	\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Charakterystyka]
+		\textbf{Jak działa:} Łączy punkty prostymi odcinkami – jak linijka między punktami.\\
+		\textbf{Kiedy użyć:} Gdy wartość zmienia się w rygorystycznie równym tempie.
+	\end{tcolorbox}
+		
+	\begin{tcolorbox}[colback=white,colframe=black,title=Zadanie]
+		Wyobraź sobie jazdę autostradą na tempomacie ze stałą prędkością. O godzinach 8:00, 10:00, 12:00 i 14:00 poziom paliwa w baku wynosił odpowiednio: 50, 35, 20 i 5 litrów. 
+		
+		Zbadaj, ile litrów paliwa było w baku o godzinie 11:00 korzystając z interpolacji liniowej.
+	\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Metoda: \texttt{nearest} (najbliższy sąsiad)}
+	\begin{tcolorbox}[colback=cyan!5!white,colframe=cyan!75!black,title=Charakterystyka]
+		\textbf{Jak działa:} Zwraca wartość najbliższego punktu – krzywa wygląda jak schody.\\
+		\textbf{Kiedy użyć:} Dane stanowe i kategoryczne (np. strefy biletowe, maszty BTS).
+	\end{tcolorbox}
+		
+	\begin{tcolorbox}[colback=white,colframe=black,title=Zadanie]
+		Podróżujesz po trasie, wzdłuż której rzadko rozsiane są maszty sieci komórkowej (BTS). Maszty o identyfikatorach: 101, 102, 103 i 104 znajdują się odpowiednio na 5, 15, 25 i 35 kilometrze trasy. 
+		
+		Wykorzystaj metodę najbliższego sąsiada, aby określić z jaką wieżą powinien być połączony telefon na 18 kilometrze trasy.
+	\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Metoda: \texttt{pchip} (Piecewise Cubic Hermite Interpolating Polynomial)}
+	\begin{tcolorbox}[colback=orange!5!white,colframe=orange!75!black,title=Charakterystyka]
+		\textbf{Jak działa:} Gładka krzywa, ale NIE tworzy zbędnych fal między punktami. Zachowuje lokalną monotoniczność.\\
+		\textbf{Kiedy użyć:} Gdy dane nie mogą "cofać się" mimo wygładzania.
+	\end{tcolorbox}
+		
+	\begin{tcolorbox}[colback=white,colframe=black,title=Zadanie]
+		Samochód w pierwszych 2 miesiącach nabija 100 i 102 tys. km. Psuje się w 3 i 4 miesiącu (stoi w garażu). W 5 i 6 znowu rusza, dobijając do 105 i 108 tys. km. 
+		
+		Porównaj formowanie krzywej metodami \texttt{spline} i \texttt{pchip}. Zauważ, czy przebieg podczas awarii z punktu widzenia interpolacji 'spline' mógłby niefizycznie maleć.
+	\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Metoda: \texttt{spline}}
+	\vspace{-1em}
+	\begin{tcolorbox}[colback=red!5!white,colframe=red!75!black,title=Charakterystyka]
+		\textbf{Jak działa:} Najgładsza możliwa krzywa – ciągłosc pierwszej i drugiej pochodnej ($C^2$).\\
+		\textbf{Kiedy użyć:} Kiedy kluczowa jest płynność ruchu (np. trajektoria maszyny CNC, lot drona, animacja kamery).\\
+		\textbf{\alert{UWAGA:}} Przy gwałtownych skokach wartości, metoda ta naturalnie wpada w oscylacje ("falowanie").
+	\end{tcolorbox}
+	
+	\begin{tcolorbox}[colback=white,colframe=black,title=Zadanie]
+		Dron nagrywający miasto z powietrza otrzymuje punkty przelotowe GPS. 
+		W czasie $t = [0, 2, 4, 6, 8]$ sekund lotu ma on znaleźć się na wysokości odpowiednio: $h = [10, 30, 15, 25, 10]$ metrów. 
+		
+		Przeprowadź w MATLABie symulację trajektorii. Zobacz, w jaki sposób metoda liniowa szarpie dronem w węzłach, podczas gdy \texttt{spline} pozwala na wykreowanie idealnie płynnego lotu, zapewniając kinowe ujęcie kamery.
+	\end{tcolorbox}
+\end{frame}
+
+\begin{frame}{Zadanie podsumowujące: Dopasuj metodę!}
+	\begin{tcolorbox}[colback=purple!5!white,colframe=purple!75!black,title=Analiza zachowania dla punktów węzłowych]
+		Zbierasz następujące dane (czas $x$, wartość $y$):\\
+		\centerline{$x = [1, 2, 3, 4, 5], \quad y = [0, 0, 10, 10, 10]$}
+		
+		\vspace{0.2cm}
+		Wartość "wskakuje" na 10 i stabilizuje się. Dopasuj właściwą metodę (\texttt{linear}, \texttt{nearest}, \texttt{pchip}, \texttt{spline}) do fizycznego znaczenia problemu.\\
+		\textbf{Uwaga:} poniżej są \textbf{3 niezależne mini-scenariusze} (to nie jest jedna historia).
+		
+		\begin{enumerate}
+			\item \textbf{Stan stycznika:} Sygnał to tylko pozycja on/off.
+			\item \textbf{Zbiornik cieczy:} Napełnianie do max. pojemności (10 litrów). Wykres nie może "falować" powyżej 10, bo zbiornik by pękł!
+			\item \textbf{Lot kamery robota (osobny scenariusz):} Wymagane jest płynne przejście z wysokości 0 na 10 (bez gwałtownych zrywów), ale \textbf{bez przestrzelenia} wartości docelowej 10.
+		\end{enumerate}
+	\end{tcolorbox}
+\end{frame}
+
+\begin{frame}[fragile]{Porównanie metod interpolacji – kod w MATLAB}
+\begin{lstlisting}[caption={Porownanie wszystkich 4 metod interpolacji}]
+clear; close all; clc;
+
+% Dane ze SKOKIEM (testujemy czy metoda faluje)
+x = [0, 1, 2, 2.5, 3, 4, 5, 6];
+y = [0, 0, 0, 1, 1, 1, 1, 2];
+x_dense = 0:0.05:6;
+figure('Position', [100 100 800 400]);
+plot(x, y, 'ro', 'MarkerSize', 10, 'LineWidth', 2); hold on;
+
+% Oblicz wszystkie metody
+y_linear = interp1(x, y, x_dense, 'linear');
+y_nearest = interp1(x, y, x_dense, 'nearest');
+y_pchip  = interp1(x, y, x_dense, 'pchip');
+y_spline = interp1(x, y, x_dense, 'spline');
+
+plot(x_dense, y_linear, 'b-', 'LineWidth', 1.5);
+plot(x_dense, y_nearest, 'c--', 'LineWidth', 1.5);
+plot(x_dense, y_pchip,  'g-', 'LineWidth', 1.5);
+plot(x_dense, y_spline, 'm-', 'LineWidth', 1.5);
+
+grid on; legend('Wezly', 'linear', 'nearest', 'pchip', 'spline', 'Location', 'best');
+% Zauwaz: spline "faluje" przed i po skoku! pchip zachowuje skok bez falowania
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Ściągawka – metody interpolacji}
+	\begin{table}
+		\centering
+		\renewcommand{\arraystretch}{1.5}
+		\begin{tabular}{|p{2.5cm}|p{4.5cm}|p{4.5cm}|}
+			\hline
+			\rowcolor{gray!20}
+			\textbf{Metoda} & \textbf{Zaleta} & \textbf{Wada} \\
+			\hline
+			\textbf{linear} & Szybka, stabilna & Załamana krzywa (niegładka) \\
+			\hline
+			\textbf{nearest} & Bardzo szybka & Nieciągła (schodkowa) \\
+			\hline
+			\textbf{pchip} & Brak oscylacji & Mniej gładka niż spline \\
+			\hline
+			\textbf{spline} & Najgładsza ($C^2$) & \alert{FALUJE przy skokach!} \\
+			\hline
+		\end{tabular}
+	\end{table}
+	
+	\vspace{0.5cm}
+	\textbf{Złote zasady interpolacji:}
+	\begin{itemize}
+		\item Gładka krzywa, brak skoków $\rightarrow$ \alert{\texttt{spline}}
+		\item Są skoki / plateau $\rightarrow$ \alert{\texttt{pchip}}
+		\item Liczy się szybkość $\rightarrow$ \alert{\texttt{linear}}
+		\item Dane kategoryczne $\rightarrow$ \alert{\texttt{nearest}}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Część 2: Czym jest aproksymacja?}
+	\textbf{Idea:} Znajdujemy krzywą, która \textbf{NIE musi przechodzić przez punkty}, ale najlepiej oddaje ogólny trend danych. Zapewnia nam to niezwykłą odporność na błędy pomiarowe (szum)!
+	
+	\vspace{-0.6em}
+	\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Sytuacja z życia: Tani odbiornik GPS]
+		\textbf{Problem:} Odbierasz dane o trajektorii powolnego statku na rzece ze starego, zawodnego nadajnika GPS. Pomiary "skaczą" w lewo i prawo o kikanaście metrów w losowych momentach z powodu gęstych chmur. 
+		
+		\textbf{Pytanie:} Zobacz skrypt \texttt{approx\_vs\_interp.m}. Co się stanie jeżeli zaufasz w 100\% odczytom i połączysz je metodą interpolacji \texttt{spline}? Kiedy interpolacja staje się błędem w sztuce inżynierskiej?
+	\end{tcolorbox}
+	\vspace{-0.5em}
+	\begin{block}{Funkcje do aproksymacji w MATLAB}
+		\centering
+		\texttt{p = polyfit(x, y, stopien)} \quad -- wyznaczanie współczynników \\
+		\texttt{y\_approx = polyval(p, xi)} \quad \,\,\,-- obliczenie nowej krzywej
+	\end{block}
+\end{frame}
+
+\begin{frame}{Dobór rzędu wielomianu: Underfitting vs Overfitting}
+			\vspace{-0.9em}
+	\begin{tcolorbox}[colback=purple!5!white,colframe=purple!75!black,title=Zrozumienie błędu dopasowania]
+		Kluczem do poprawnej aproksymacji jest dobór rzędu wielomianu (\texttt{polyfit}). 
+		\begin{itemize}
+			\item \textbf{Zbyt mały stopień} (np. linia prosta próbująca aproksymować zjawisko sinusoidalne): Model jest zbyt prosty i kompletnie ignoruje prawdziwą dynamikę układu. Jest to \alert{niedouczenie (underfitting)}.
+			\item \textbf{Zbyt duży stopień} (np. st. 8 dla 10 punktów pomiarowych): Krzywa zaczyna w panice gonić każdy, nawet najbardziej absurdalny błędny pomiar i "szaleć" pomiędzy nimi (oscylacje Rungego). Jest to \alert{przeuczenie (overfitting)}.
+		\end{itemize}
+	\end{tcolorbox}
+	\vspace{-1.2em}
+	\begin{tcolorbox}[colback=white,colframe=black,title=Weryfikacja rzędu zjawiska]
+		Uruchom \texttt{polynomial\_order.m}. Zaobserwuj zjawisko "overfittingu", gdy wymuszamy model aż 8 stopnia. Spójrz na wygenerowany wykres średniego błędu kwadratowego MSE, który pomoże Ci podjąć matematyczną, popartą liczbami decyzję na temat idealnego stopnia (minimum).
+	\end{tcolorbox}
+\end{frame}
+
+\begin{frame}[fragile]{Aproksymacja i testy modeli – szkielet w MATLAB}
+\begin{lstlisting}[caption={Obrona przed szumem i dobór rzędu w polyfit}]
+% --- PLIK 1: Kiedy Interpolacja NISZCZY uklad (zaufanie do zlego pomiaru) ---
+x_pomiar = 0:0.9:10;  % Bardzo malo punktow (przyklad)
+% Dodajemy sztuczny szum (bledy czujnika GPS): randn()
+y_pomiar = (2*exp(-0.3*x_pomiar).*sin(2*x_pomiar)+0.5) + (0.4*randn(size(x_pomiar))); 
+
+subplot(1,2,1); % Blad konstrukcyjny -> laczenie bzdurnych pomiarow
+y_spline = interp1(x_pomiar, y_pomiar, 0:0.05:10, 'spline');
+plot(0:0.05:10, y_spline, 'b-'); % Trajektoria "wypadnie" z rzeki z powodu szumu GPS!
+
+subplot(1,2,2); % Wlasciwe ujecie inzynierskie -> aprobksymacja
+p5 = polyfit(x_pomiar, y_pomiar, 5); % Ufamy ze trend to cos na ksztalt st. 5
+y_approx5 = polyval(p5, 0:0.05:10);
+plot(0:0.05:10, y_approx5, 'm-'); % Ignoruje pojedynczy blad, goni krzywizne trasy
+
+
+% --- PLIK 2: Poszukiwanie optymalnego rzedu wielomianu (zabezpieczenie) ---
+% Zasada bezpieczenstwa: Zbyt wysoki blad wariancji to Overfitting!
+stopnie = 1:8; 
+blad_MSE = zeros(size(stopnie)); % Przygotowanie pamieci
+
+for i = 1:length(stopnie)
+	p_test = polyfit(x_pomiar, y_pomiar, stopnie(i));
+	y_test = polyval(p_test, x_prawdziwe); 
+	blad_MSE(i) = mean((y_test - y_prawdziwe).^2); % Zbieramy Sredni Blad Kwadratowy
+end
+% Szukamy "dolka" na wykresie: plot(stopnie, log10(blad_MSE));
+\end{lstlisting}
+\end{frame}
+
+\end{document}
